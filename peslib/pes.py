@@ -5,8 +5,10 @@ from peslibf import o4_singlet
 from ase.calculators.calculator import Calculator, all_changes
 
 ang2bohr = Angstrom / Bohr
-hatree2ev = Hartree/eV
+hatree2ev = Hartree / eV
 hatree_bohr2ev_ang = hatree2ev * ang2bohr
+
+
 class O4SingletPES(Calculator):
     """
     O4_singlet
