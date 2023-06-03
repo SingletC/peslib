@@ -4,7 +4,9 @@ from ase.units import Bohr, Angstrom, Hartree, eV
 from peslibf import o4_singlet
 from ase.calculators.calculator import Calculator, all_changes
 
-
+ang2bohr = Angstrom / Bohr
+hatree2ev = Hartree/eV
+hatree_bohr2ev_ang = hatree2ev * ang2bohr
 class O4SingletPES(Calculator):
     """
     O4_singlet
@@ -21,20 +23,20 @@ class O4SingletPES(Calculator):
                   system_changes=all_changes):
         if atoms is not None:
             self.atoms = atoms.copy()
-        r = atoms.get_positions()
-        x = r[:, 0] / Bohr * Angstrom
-        y = r[:, 1] / Bohr * Angstrom
-        z = r[:, 2] / Bohr * Angstrom
+        r = atoms.get_positions() * ang2bohr
+        x = r[:, 0]
+        y = r[:, 1]
+        z = r[:, 2]
         dx = np.zeros(4)
         dy = np.zeros(4)
         dz = np.zeros(4)
         e = np.zeros(2)
         o4_singlet.pot(x, y, z, e, dx, dy, dz)
         f = np.zeros((4, 3))
-        f[:, 0] = -dx
-        f[:, 1] = -dy
-        f[:, 2] = -dz
-        e = e[0] * Hartree / eV
+        f[:, 0] = -dx * hatree_bohr2ev_ang
+        f[:, 1] = -dy * hatree_bohr2ev_ang
+        f[:, 2] = -dz * hatree_bohr2ev_ang
+        e = e[0] * hatree2ev
         self.results = {'energy': e, 'forces': f}
 
 
