@@ -29,16 +29,12 @@ class O4SingletPES(Calculator):
         x = r[:, 0]
         y = r[:, 1]
         z = r[:, 2]
-        dx = np.zeros(4)
-        dy = np.zeros(4)
-        dz = np.zeros(4)
-        e = np.zeros(2)
-        o4_singlet.pot(x, y, z, e, dx, dy, dz)
+        e, dx,dy,dz = o4_singlet.pot(x, y, z)
         f = np.zeros((4, 3))
         f[:, 0] = -dx * hatree_bohr2ev_ang
         f[:, 1] = -dy * hatree_bohr2ev_ang
         f[:, 2] = -dz * hatree_bohr2ev_ang
-        e = e[0] * hatree2ev
+        e = e * hatree2ev
         self.results = {'energy': e, 'forces': f}
 
 
