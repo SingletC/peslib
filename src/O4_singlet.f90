@@ -59,8 +59,6 @@ C
       double precision E,V
       double precision X(4),Y(4),Z(4),dEdX(4),dEdY(4),dEdZ(4)
       double precision Xcart(12),dVdX(12)
-Cf2py intent(in) X,Y,Z
-Cf2py intent(out) E,dEdX,dEdY,dEdZ
 C Convert to local variables
       do i=1,4
         Xcart(3*i-2)=X(i)*Cconv
