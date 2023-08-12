@@ -1,4 +1,4 @@
-name: MADGP automated test for fundamental functionality
+name: PESLIB automated test for all PES
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
