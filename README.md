@@ -2,6 +2,7 @@
 repo currently under development
 current supported PES:
 - [O4 singlet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=O4_singlet)
+- [O4 triplet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=O4_triplet_v2)
 - [N4_singlet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=PES_N4_singlet_umn_v3)
 ## Installation
 make sure there is gfortran compiler installed
