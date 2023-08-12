@@ -5,6 +5,7 @@ jobs:
   Explore-GitHub-Actions:
     strategy:
       matrix:
+        os: [macos-latest, windows-latest, ubuntu-20.04, ubuntu-22.04]
         python-version: [ '3.7', '3.8', '3.9', '3.10', '3.11' ]
     runs-on: ubuntu-latest
     steps:
@@ -23,5 +24,6 @@ jobs:
 
     - name: Run pytest
       run: |
+        pip install pytest
         cd tests
         pytest  .
