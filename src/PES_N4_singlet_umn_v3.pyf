@@ -1,0 +1,25 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module n4_singlet ! in 
+    interface  ! in :n4_singlet
+        module pes_n4_singlet_umn_v3 ! in :n4_singlet:PES_N4_singlet_umn_v3.f90
+            subroutine pot(x,y,z,e,dedx,dedy,dedz) ! in :n4_singlet:PES_N4_singlet_umn_v3.f90:pes_n4_singlet_umn_v3
+                double precision dimension(4),intent(in) :: x
+                double precision dimension(4),intent(in) :: y
+                double precision dimension(4),intent(in) :: z
+                double precision intent(out) :: e
+                double precision dimension(4),intent(out) :: dedx
+                double precision dimension(4),intent(out) :: dedy
+                double precision dimension(4),intent(out) :: dedz
+            end subroutine pot
+
+
+
+        end module pes_n4_singlet_umn_v3
+    end interface 
+end python module n4_singlet
+
+! This file was auto-generated with f2py (version:1.23.5).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e
