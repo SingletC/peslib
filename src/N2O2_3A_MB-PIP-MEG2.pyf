@@ -1,0 +1,22 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module n2o2_triplet ! in 
+    interface  ! in :n2o2_triplet
+        module n2o2_3a_mb_pip_meg2 ! in :n2o2_triplet:./N2O2_3A_MB-PIP-MEG2.f90
+            subroutine pot(x,y,z,e,dedx,dedy,dedz) ! in :n2o2_triplet:./N2O2_3A_MB-PIP-MEG2.f90:n2o2_3a_mb_pip_meg2
+                double precision dimension(4),intent(in) :: x
+                double precision dimension(4),intent(in) :: y
+                double precision dimension(4),intent(in) :: z
+                double precision intent(out) :: e
+                double precision dimension(4),intent(out) :: dedx
+                double precision dimension(4),intent(out) :: dedy
+                double precision dimension(4),intent(out) :: dedz
+            end subroutine pot
+        end module n2o2_3a_mb_pip_meg2
+    end interface 
+end python module n2o2_triplet
+
+! This file was auto-generated with f2py (version:1.23.5).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e
