@@ -1,4 +1,8 @@
 ```bash
-f2yp -h foo.pyf foo.f90
+f2yp -m foo -h foo.pyf foo.f90
 ```
-then remove all irrelevant function in the generated pyf file
+remove all irrelevant function in the generated pyf file  
+update setup.py
+update pes to peslib/pes.py
+update test to tests/test_pes.py
+update README.md
