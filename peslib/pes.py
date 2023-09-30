@@ -1,9 +1,9 @@
-from typing import Callable, Tuple
+from typing import Callable, Tuple, List, Optional
 
 import numpy as np
 from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
-from peslibf import o4_singlet,n4_singlet,o4_triplet
+from peslibf import o4_singlet, n4_singlet, o4_triplet, n2o2_triplet
 from ase.calculators.calculator import Calculator, all_changes
 
 ang2bohr = Angstrom / Bohr
@@ -12,7 +12,9 @@ hatree_bohr2ev_ang = hatree2ev * ang2bohr
 
 
 class BasePES(Calculator):
-    __pes__func__: Callable[[np.ndarray, np.ndarray, np.ndarray], Tuple[float, np.ndarray, np.ndarray, np.ndarray]] = None
+    __pes__func__: Callable[
+        [np.ndarray, np.ndarray, np.ndarray], Tuple[float, np.ndarray, np.ndarray, np.ndarray]] = None
+    __atomic_numbers__: Optional[List[int]] = None
 
     def __init__(self, **kwargs):
         Calculator.__init__(self, **kwargs)
@@ -21,6 +23,9 @@ class BasePES(Calculator):
                   system_changes=all_changes):
         if atoms is not None:
             self.atoms = atoms.copy()
+        if not (atoms.get_atomic_numbers() == self.__atomic_numbers__).all() and self.__atomic_numbers__:
+            raise ValueError(
+                f'order of Atomic numbers of atoms should be {self.__atomic_numbers__}')
         r = atoms.get_positions() * ang2bohr
         x = r[:, 0]
         y = r[:, 1]
@@ -43,6 +48,7 @@ class O4SingletPES(BasePES):
     implemented_properties = [
         "energy",
         "forces", ]
+
 
 class N4singletPES(BasePES):
     """
@@ -69,6 +75,7 @@ N2 + N2 --> N2 + N + N
         "energy",
         "forces", ]
     __pes__func__ = n4_singlet.pes_n4_singlet_umn_v3
+
 
 class O4TripletPES(BasePES):
     """
@@ -99,6 +106,19 @@ O2 + O2 --> O2 + O + O
         "energy",
         "forces", ]
     __pes__func__ = o4_triplet.pot
+
+
+class N2O2tripletPES(BasePES):
+    """
+    https://comp.chem.umn.edu/potlib/showPotential.cgi?id=N2O2_3A_MB-PIP-MEG2
+    O,O,N,N as order of atoms
+    """
+    implemented_properties = [
+        "energy",
+        "forces", ]
+    __pes__func__ = n2o2_triplet.n2o2_3a_mb_pip_meg2.pot
+    __atomic_numbers__ = [8, 8, 7, 7]
+
 
 if __name__ == '__main__':
     atoms = Atoms('N4', positions=[(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)])
