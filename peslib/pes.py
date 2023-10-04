@@ -3,7 +3,7 @@ from typing import Callable, Tuple, List, Optional
 import numpy as np
 from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet
+from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet,c2h6oh
 from ase.calculators.calculator import Calculator, all_changes
 
 ang2bohr = Angstrom / Bohr
@@ -207,6 +207,30 @@ class CH4OH(BasePESv1):
 
                                                           ))
     __pes__class__ = ch4oh
+    __atomic_numbers__ = example_molecule.get_atomic_numbers()
+
+
+class C2H6OH(BasePESv1):
+    """
+    C. Rangel, M. Garcia-Chamorro, J.C. Corchado and J. Espinosa-Garcia, PCCP, 22 14796 (2020)
+      https://comp.chem.umn.edu/potlib/showPotential.cgi?id=c2h6oh-v2020
+    """
+    implemented_properties = [
+        "energy",
+        "forces", ]
+    example_molecule = Atoms('C2H6OH', positions=np.array([[-2.70469798, 0.12751678, 0.00000000],
+                                                           [-2.19135576, 0.85347305, 1.25740497],
+                                                           [-2.34804355, -0.88129323, 0.00000000],
+                                                           [-2.34802514, 0.63191497, -0.87365150],
+                                                           [-3.77469798, 0.12752996, 0.00000000],
+                                                           [-1.12135757, 0.85176598, 1.25838332],
+                                                           [-2.54641232, 1.86284607, 1.25642758],
+                                                           [-2.54962472, 0.35020505, 2.13105517],
+                                                           [-2.02369196, 2.85589893, 2.47385774],
+                                                           [-1.75811093, 3.34840994, 3.25392159]]
+
+                                                          ))
+    __pes__class__ = c2h6oh
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
 
 

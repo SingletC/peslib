@@ -1,7 +1,7 @@
 from unittest import TestCase
 from ase.atoms import Atoms
 
-from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH
+from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH, C2H6OH
 
 
 class TestPES(TestCase):
@@ -27,8 +27,14 @@ class TestPES(TestCase):
         print(f'E : {atoms.get_potential_energy()}')
         print(f'Force : {atoms.get_forces()}')
 
-    def test_c2h6oh(self):
+    def test_ch4oh(self):
         atoms = CH4OH.example_molecule
         atoms.calc = CH4OH()
+        print(f'E : {atoms.get_potential_energy()}')
+        print(f'Force : {atoms.get_forces()}')
+
+    def test_c2h6oh(self):
+        atoms = C2H6OH.example_molecule
+        atoms.calc = C2H6OH()
         print(f'E : {atoms.get_potential_energy()}')
         print(f'Force : {atoms.get_forces()}')

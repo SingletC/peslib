@@ -1,0 +1,3016 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module c2h6oh ! in 
+    interface  ! in :c2h6oh
+        subroutine pot ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine pot
+        subroutine coorden ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine coorden
+        subroutine torsion(vtor) ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision :: vtor
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine torsion
+        subroutine dihedro(i,j,k,l,dihed) ! in :c2h6oh:./c2h6oh-v2020.f
+            integer :: i
+            integer :: j
+            integer :: k
+            integer :: l
+            double precision :: dihed
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine dihedro
+        subroutine crosprod(x,y,z) ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(3) :: x
+            double precision dimension(3) :: y
+            double precision dimension(3) :: z
+        end subroutine crosprod
+        function dotprod(x,y) ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(3) :: x
+            double precision dimension(3) :: y
+            double precision :: dotprod
+        end function dotprod
+        function anorm(x) ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(3) :: x
+            double precision :: anorm
+        end function anorm
+        subroutine refangles ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine refangles
+        subroutine stretch(vstr) ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision :: vstr
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine stretch
+        subroutine opbend(vop) ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision :: vop
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine opbend
+        subroutine ipbend(vip) ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision :: vip
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine ipbend
+        subroutine calcdelta1(i,j,k,l,sum2,sum4) ! in :c2h6oh:./c2h6oh-v2020.f
+            integer :: i
+            integer :: j
+            integer :: k
+            integer :: l
+            double precision :: sum2
+            double precision :: sum4
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine calcdelta1
+        subroutine calcdelta2(i,j,k,l,sum2,sum4) ! in :c2h6oh:./c2h6oh-v2020.f
+            integer :: i
+            integer :: j
+            integer :: k
+            integer :: l
+            double precision :: sum2
+            double precision :: sum4
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine calcdelta2
+        subroutine opforce ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine opforce
+        subroutine ipforce ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine ipforce
+        subroutine switchf ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(75) :: r
+            double precision :: engygs
+            double precision dimension(75) :: degsdr
+            double precision dimension(6) :: ezero
+            double precision dimension(5) :: engyes
+            double precision dimension(75,5) :: deesdr
+            double precision dimension(4) :: engyij
+            double precision dimension(75,4) :: deijdr
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision :: pengygs
+            double precision dimension(5) :: pengyes
+            double precision dimension(4) :: pengyij
+            double precision dimension(25,3) :: dgscart
+            double precision dimension(25,3,5) :: descart
+            double precision dimension(25,3,4) :: dijcart
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine switchf
+        subroutine prepot ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(6) :: ezero
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            double precision dimension(25,3) :: cart
+            double precision :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            integer :: nnc1
+            integer :: nnc2
+            integer :: nnb
+            double precision :: r0c1hr
+            double precision :: r0c1hp
+            double precision :: w3
+            double precision :: w4
+            double precision :: d1c1h
+            double precision :: d3c1h
+            double precision :: a1c1h
+            double precision :: b1c1h
+            double precision :: c1c1h
+            double precision :: r0c2hr
+            double precision :: r0c2hp
+            double precision :: w5
+            double precision :: w6
+            double precision :: d1c2h
+            double precision :: d3c2h
+            double precision :: a1c2h
+            double precision :: b1c2h
+            double precision :: c1c2h
+            double precision :: r0cc
+            double precision :: rcc
+            double precision :: d1cc
+            double precision :: acc
+            double precision :: a1c
+            double precision :: a2c
+            double precision :: r0hh
+            double precision :: d1hh
+            double precision :: d3hh
+            double precision :: ahh
+            double precision :: r0cb
+            double precision :: d1cb
+            double precision :: d3cb
+            double precision :: acb
+            double precision :: a3s
+            double precision :: b3s
+            double precision :: aphi
+            double precision :: bphi
+            double precision :: cphi
+            double precision :: atheta
+            double precision :: btheta
+            double precision :: ctheta
+            double precision :: fch3
+            double precision :: hch3
+            double precision :: fkinf
+            double precision :: ak
+            double precision :: bk
+            double precision :: aa1
+            double precision :: aa2
+            double precision :: aa3
+            double precision :: aa4
+            double precision :: v3
+            double precision :: w1
+            double precision :: w2
+            double precision :: a1s
+            double precision :: b1s
+            double precision :: a2s
+            double precision :: b2s
+            double precision :: a1scc
+            double precision :: b1scc
+            double precision :: a2scc
+            double precision :: b2scc
+            double precision :: a3scc
+            double precision :: b3scc
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer dimension(6) :: nnh
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer :: nno
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision :: fkh2oeq
+            double precision dimension(6) :: fkh2o
+            double precision :: alph2o
+            double precision :: angh2oeq
+            common /pt3cm/ ezero
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end subroutine prepot
+        block data ptpacm ! in :c2h6oh:./c2h6oh-v2020.f
+            double precision dimension(6) :: ezero
+            double precision dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer, optional :: natoms=10
+            integer, optional :: icartr=1
+            integer, optional :: mder=1
+            integer, optional :: msurf=0
+            character dimension(5,75),intent(c) :: ref
+            double precision dimension(25,3) :: cart
+            double precision, optional :: anuzero=0.0d0
+            integer, optional,dimension(25) :: nulbl=25*0
+            integer, optional,dimension(20) :: nflag=1
+            integer, optional,dimension(6,6) :: nasurf=1
+            integer, optional :: nder=1
+            integer, optional :: nnc1=1
+            integer, optional :: nnc2=2
+            integer, optional :: nnb=9
+            double precision, optional :: r0c1hr=1.08897d0
+            double precision, optional :: r0c1hp=1.07577d0
+            double precision, optional :: w3=1.00000d0
+            double precision, optional :: w4=1.08897d0
+            double precision, optional :: d1c1h=109.23000d0
+            double precision, optional :: d3c1h=22.00400d0
+            double precision, optional :: a1c1h=1.68000d0
+            double precision, optional :: b1c1h=0.14500d0
+            double precision, optional :: c1c1h=8.21404d0
+            double precision, optional :: r0c2hr=1.08897d0
+            double precision, optional :: r0c2hp=1.07577d0
+            double precision, optional :: w5=1.00000d0
+            double precision, optional :: w6=1.08897d0
+            double precision, optional :: d1c2h=109.23000d0
+            double precision, optional :: d3c2h=22.00400d0
+            double precision, optional :: a1c2h=1.68000d0
+            double precision, optional :: b1c2h=0.14500d0
+            double precision, optional :: c1c2h=8.21404d0
+            double precision, optional :: r0cc=1.50007d0
+            double precision :: rcc
+            double precision, optional :: d1cc=117.94900d0
+            double precision, optional :: acc=1.93400d0
+            double precision, optional :: a1c=0.90007d0
+            double precision, optional :: a2c=0.94900d0
+            double precision, optional :: r0hh=0.97141d0
+            double precision, optional :: d1hh=125.85800d0
+            double precision, optional :: d3hh=29.56400d0
+            double precision, optional :: ahh=2.10570d0
+            double precision, optional :: r0cb=1.90397d0
+            double precision, optional :: d1cb=52.50900d0
+            double precision, optional :: d3cb=14.86000d0
+            double precision, optional :: acb=0.8310285d0
+            double precision, optional :: a3s=1.8419147d0
+            double precision, optional :: b3s=1.0889300d0
+            double precision, optional :: aphi=1.0087903d0
+            double precision, optional :: bphi=1.2006638d0
+            double precision, optional :: cphi=1.0889937d0
+            double precision, optional :: atheta=1.2078714d0
+            double precision, optional :: btheta=0.3548859d0
+            double precision, optional :: ctheta=1.8915497d0
+            double precision, optional :: fch3=0.1357500d0
+            double precision, optional :: hch3=0.2615000d0
+            double precision, optional :: fkinf=0.2977000d0
+            double precision, optional :: ak=0.3060000d0
+            double precision, optional :: bk=0.2032000d0
+            double precision, optional :: aa1=0.800952d0
+            double precision, optional :: aa2=0.499963d0
+            double precision, optional :: aa3=6.465953d0
+            double precision, optional :: aa4=1.569977d0
+            double precision, optional :: v3=13.730000d0
+            double precision, optional :: w1=9.3548859d0
+            double precision, optional :: w2=0.913970d0
+            double precision, optional :: a1s=2.5313681d0
+            double precision, optional :: b1s=1.088625d0
+            double precision, optional :: a2s=2.0147402d0
+            double precision, optional :: b2s=1.088980d0
+            double precision, optional :: a1scc=2.5313681d0
+            double precision, optional :: b1scc=1.550070d0
+            double precision, optional :: a2scc=2.0147402d0
+            double precision, optional :: b2scc=1.550070d0
+            double precision, optional :: a3scc=0.531368d0
+            double precision, optional :: b3scc=1.550070d0
+            double precision dimension(8,8) :: theta0
+            double precision dimension(8,8,8) :: dtheta0
+            double precision :: r0c1h
+            double precision :: r0c2h
+            double precision dimension(3) :: rc1h
+            double precision dimension(3) :: rc2h
+            double precision dimension(6) :: rbh
+            double precision dimension(3,6) :: rhh
+            double precision :: rc1b
+            double precision :: rc2b
+            double precision dimension(3) :: tcb
+            double precision dimension(3,3) :: tc1h
+            double precision dimension(3,3) :: tc2h
+            double precision dimension(6,3) :: tbh
+            double precision dimension(3) :: tcc
+            double precision dimension(3,6,3) :: thh
+            double precision dimension(3) :: tc1b
+            double precision dimension(3) :: tc2b
+            double precision dimension(8) :: fdelta
+            double precision dimension(8) :: hdelta
+            double precision dimension(8,8) :: dfdelta
+            double precision dimension(8,8) :: dhdelta
+            double precision dimension(8,8) :: fk0
+            double precision dimension(8) :: f1
+            double precision dimension(8,8,8) :: dfdc
+            double precision dimension(8,8,8) :: dfdh
+            double precision dimension(8) :: s1
+            double precision dimension(8) :: ds1
+            double precision dimension(8) :: s2
+            double precision dimension(8) :: ds2
+            integer dimension(3) :: nc
+            integer dimension(3) :: nhb
+            integer dimension(8,3) :: nh
+            integer dimension(3) :: nc1
+            integer dimension(3) :: nc2
+            integer, optional,dimension(6) :: nnh=3
+            double precision dimension(8) :: s3
+            double precision dimension(8) :: ds3
+            double precision dimension(30) :: q
+            double precision dimension(30) :: pdot
+            double precision :: d1ch
+            double precision :: d3ch
+            double precision :: a1cc
+            double precision :: b1cc
+            double precision :: c1cc
+            double precision dimension(8) :: sphi
+            double precision dimension(8) :: dsphi
+            double precision dimension(8) :: stheta
+            double precision dimension(8) :: dstheta
+            double precision dimension(9) :: thetahcch
+            double precision :: rno
+            double precision dimension(3) :: tno
+            integer, optional :: nno=10
+            integer dimension(3) :: no
+            double precision dimension(6) :: angh2o
+            double precision, optional :: fkh2oeq=0.6500000d0
+            double precision dimension(6) :: fkh2o
+            double precision, optional :: alph2o=3.2080000d0
+            double precision, optional :: angh2oeq=104.7132000d0
+            integer, parameter,optional :: n3atom=75
+            integer, parameter,optional :: isurf=5
+            integer, parameter,optional :: jsurf=15.0
+            double precision, parameter,optional :: pi=3.141592653589793
+            integer, parameter,optional :: natom=25
+            common /pt3cm/ ezero
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /potcm/ nnc1,nnc2,nnb,r0c1hr,r0c1hp,w3,w4,d1c1h,d3c1h,a1c1h,b1c1h,c1c1h,r0c2hr,r0c2hp,w5,w6,d1c2h,d3c2h,a1c2h,b1c2h,c1c2h,r0cc,rcc,d1cc,acc,a1c,a2c,r0hh,d1hh,d3hh,ahh,r0cb,d1cb,d3cb,acb,a3s,b3s,aphi,bphi,cphi,atheta,btheta,ctheta,fch3,hch3,fkinf,ak,bk,aa1,aa2,aa3,aa4,v3,w1,w2,a1s,b1s,a2s,b2s,a1scc,b1scc,a2scc,b2scc,a3scc,b3scc
+            common /angles/ theta0,dtheta0
+            common /bonds/ r0c1h,r0c2h
+            common /bonds2/ rc1h,rc2h,rbh,rhh
+            common /bonds3/ rc1b,rc2b
+            common /coords1/ tcb,tc1h,tc2h,tbh
+            common /coords2/ tcc,thh
+            common /coords3/ tc1b,tc2b
+            common /delta1/ fdelta,hdelta
+            common /delta2/ dfdelta,dhdelta
+            common /force1/ fk0,f1,dfdc,dfdh
+            common /ip1/ s1,ds1,s2,ds2
+            common /ndx/ nc,nhb,nh
+            common /ndx2/ nc1,nc2,nnh
+            common /op1/ s3,ds3
+            common /qpdot/ q,pdot
+            common /stret1/ d1ch,d3ch,a1cc,b1cc,c1cc
+            common /switch1/ sphi,dsphi,stheta,dstheta
+            common /thetahcch/ thetahcch
+            common /h2o/ rno,tno,nno,no
+            common /addh2o/ angh2o,fkh2oeq,fkh2o,alph2o,angh2oeq
+        end block data ptpacm
+        subroutine potinfo ! in :c2h6oh:./lib/utility.f
+            real*8 dimension(75) :: r
+            real*8 :: engygs
+            real*8 dimension(75) :: degsdr
+            real*8 dimension(6) :: ezero
+            real*8 dimension(5) :: engyes
+            real*8 dimension(75,5) :: deesdr
+            real*8 dimension(4) :: engyij
+            real*8 dimension(75,4) :: deijdr
+            real*8 dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            real*8 :: pengygs
+            real*8 dimension(5) :: pengyes
+            real*8 dimension(4) :: pengyij
+            real*8 dimension(25,3) :: dgscart
+            real*8 dimension(25,3,5) :: descart
+            real*8 dimension(25,3,4) :: dijcart
+            real*8 dimension(25,3) :: cart
+            real*8 :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            real*8 dimension(25,3) :: dgscartnu
+            real*8 dimension(25,3,5) :: descartnu
+            real*8 dimension(25,3,4) :: dijcartnu
+            real*8 :: cnvrtd
+            real*8 :: cnvrte
+            real*8 :: cnvrtde
+            integer :: ireorder
+            integer :: ksdiag
+            integer :: kediag
+            integer :: ksoffd
+            integer :: keoffd
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+            common /utilcm/ dgscartnu,descartnu,dijcartnu,cnvrtd,cnvrte,cnvrtde,ireorder,ksdiag,kediag,ksoffd,keoffd
+        end subroutine potinfo
+        subroutine ancvrt ! in :c2h6oh:./lib/utility.f
+            real*8 dimension(75) :: r
+            real*8 :: engygs
+            real*8 dimension(75) :: degsdr
+            real*8 dimension(6) :: ezero
+            real*8 dimension(5) :: engyes
+            real*8 dimension(75,5) :: deesdr
+            real*8 dimension(4) :: engyij
+            real*8 dimension(75,4) :: deijdr
+            real*8 :: pengygs
+            real*8 dimension(5) :: pengyes
+            real*8 dimension(4) :: pengyij
+            real*8 dimension(25,3) :: dgscart
+            real*8 dimension(25,3,5) :: descart
+            real*8 dimension(25,3,4) :: dijcart
+            real*8 dimension(25,3) :: dgscartnu
+            real*8 dimension(25,3,5) :: descartnu
+            real*8 dimension(25,3,4) :: dijcartnu
+            real*8 :: cnvrtd
+            real*8 :: cnvrte
+            real*8 :: cnvrtde
+            integer :: ireorder
+            integer :: ksdiag
+            integer :: kediag
+            integer :: ksoffd
+            integer :: keoffd
+            real*8 dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            real*8 dimension(25,3) :: cart
+            real*8 :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /utilcm/ dgscartnu,descartnu,dijcartnu,cnvrtd,cnvrte,cnvrtde,ireorder,ksdiag,kediag,ksoffd,keoffd
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+        end subroutine ancvrt
+        subroutine cartou ! in :c2h6oh:./lib/utility.f
+            real*8 dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            real*8 dimension(25,3) :: dgscartnu
+            real*8 dimension(25,3,5) :: descartnu
+            real*8 dimension(25,3,4) :: dijcartnu
+            real*8 :: cnvrtd
+            real*8 :: cnvrte
+            real*8 :: cnvrtde
+            integer :: ireorder
+            integer :: ksdiag
+            integer :: kediag
+            integer :: ksoffd
+            integer :: keoffd
+            real*8 dimension(25,3) :: cart
+            real*8 :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /utilcm/ dgscartnu,descartnu,dijcartnu,cnvrtd,cnvrte,cnvrtde,ireorder,ksdiag,kediag,ksoffd,keoffd
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+        end subroutine cartou
+        subroutine carttor ! in :c2h6oh:./lib/utility.f
+            real*8 dimension(75) :: r
+            real*8 :: engygs
+            real*8 dimension(75) :: degsdr
+            real*8 dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            real*8 dimension(25,3) :: cart
+            real*8 :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            common /pt1cm/ r,engygs,degsdr
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+        end subroutine carttor
+        subroutine eunitzero ! in :c2h6oh:./lib/utility.f
+            real*8 dimension(75) :: r
+            real*8 :: engygs
+            real*8 dimension(75) :: degsdr
+            real*8 dimension(6) :: ezero
+            real*8 dimension(5) :: engyes
+            real*8 dimension(75,5) :: deesdr
+            real*8 dimension(4) :: engyij
+            real*8 dimension(75,4) :: deijdr
+            real*8 dimension(25,3) :: dgscartnu
+            real*8 dimension(25,3,5) :: descartnu
+            real*8 dimension(25,3,4) :: dijcartnu
+            real*8 :: cnvrtd
+            real*8 :: cnvrte
+            real*8 :: cnvrtde
+            integer :: ireorder
+            integer :: ksdiag
+            integer :: kediag
+            integer :: ksoffd
+            integer :: keoffd
+            real*8 :: pengygs
+            real*8 dimension(5) :: pengyes
+            real*8 dimension(4) :: pengyij
+            real*8 dimension(25,3) :: dgscart
+            real*8 dimension(25,3,5) :: descart
+            real*8 dimension(25,3,4) :: dijcart
+            real*8 dimension(25,3) :: cart
+            real*8 :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /utilcm/ dgscartnu,descartnu,dijcartnu,cnvrtd,cnvrte,cnvrtde,ireorder,ksdiag,kediag,ksoffd,keoffd
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+        end subroutine eunitzero
+        subroutine rtocart ! in :c2h6oh:./lib/utility.f
+            real*8 dimension(75) :: r
+            real*8 :: engygs
+            real*8 dimension(75) :: degsdr
+            real*8 dimension(6) :: ezero
+            real*8 dimension(5) :: engyes
+            real*8 dimension(75,5) :: deesdr
+            real*8 dimension(4) :: engyij
+            real*8 dimension(75,4) :: deijdr
+            real*8 dimension(25,3) :: dgscartnu
+            real*8 dimension(25,3,5) :: descartnu
+            real*8 dimension(25,3,4) :: dijcartnu
+            real*8 :: cnvrtd
+            real*8 :: cnvrte
+            real*8 :: cnvrtde
+            integer :: ireorder
+            integer :: ksdiag
+            integer :: kediag
+            integer :: ksoffd
+            integer :: keoffd
+            real*8 dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            real*8 dimension(25,3) :: cart
+            real*8 :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            common /pt1cm/ r,engygs,degsdr
+            common /pt3cm/ ezero
+            common /pt4cm/ engyes,deesdr
+            common /pt5cm/ engyij,deijdr
+            common /utilcm/ dgscartnu,descartnu,dijcartnu,cnvrtd,cnvrte,cnvrtde,ireorder,ksdiag,kediag,ksoffd,keoffd
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+        end subroutine rtocart
+        subroutine dedcou ! in :c2h6oh:./lib/utility.f
+            real*8 dimension(25,3) :: dgscartnu
+            real*8 dimension(25,3,5) :: descartnu
+            real*8 dimension(25,3,4) :: dijcartnu
+            real*8 :: cnvrtd
+            real*8 :: cnvrte
+            real*8 :: cnvrtde
+            integer :: ireorder
+            integer :: ksdiag
+            integer :: kediag
+            integer :: ksoffd
+            integer :: keoffd
+            real*8 :: pengygs
+            real*8 dimension(5) :: pengyes
+            real*8 dimension(4) :: pengyij
+            real*8 dimension(25,3) :: dgscart
+            real*8 dimension(25,3,5) :: descart
+            real*8 dimension(25,3,4) :: dijcart
+            real*8 dimension(25,3) :: cartnu
+            integer dimension(25) :: indexes
+            integer :: irctnt
+            integer :: natoms
+            integer :: icartr
+            integer :: mder
+            integer :: msurf
+            character dimension(5,75),intent(c) :: ref
+            real*8 dimension(25,3) :: cart
+            real*8 :: anuzero
+            integer dimension(25) :: nulbl
+            integer dimension(20) :: nflag
+            integer dimension(6,6) :: nasurf
+            integer :: nder
+            common /utilcm/ dgscartnu,descartnu,dijcartnu,cnvrtd,cnvrte,cnvrtde,ireorder,ksdiag,kediag,ksoffd,keoffd
+            common /usrocm/ pengygs,pengyes,pengyij,dgscart,descart,dijcart
+            common /infocm/ cartnu,indexes,irctnt,natoms,icartr,mder,msurf,ref
+            common /usricm/ cart,anuzero,nulbl,nflag,nasurf,nder
+        end subroutine dedcou
+    end interface 
+end python module c2h6oh
+
+! This file was auto-generated with f2py (version:1.23.5).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e
