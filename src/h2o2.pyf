@@ -1,0 +1,17 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module h2o2 ! in 
+    interface  ! in :h2o2
+        subroutine surf(v,coord,dx,n3tm) ! in :h2o2:./h2o2.f
+            double precision,intent(out) :: v
+            double precision dimension(n3tm),intent(in) :: coord
+            double precision dimension(n3tm),depend(n3tm),intent(out) :: dx
+            integer, optional,check(shape(coord, 0) == n3tm),depend(coord) :: n3tm=shape(coord, 0)
+        end subroutine surf
+    end interface 
+end python module h2o2
+
+! This file was auto-generated with f2py (version:1.23.5).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e

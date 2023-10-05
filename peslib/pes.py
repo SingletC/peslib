@@ -1,9 +1,10 @@
+from abc import abstractmethod
 from typing import Callable, Tuple, List, Optional
 
 import numpy as np
 from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet,c2h6oh
+from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2
 from ase.calculators.calculator import Calculator, all_changes
 
 ang2bohr = Angstrom / Bohr
@@ -27,11 +28,7 @@ class BasePES(Calculator):
             raise ValueError(
                 f'order of Atomic numbers of atoms should be {self.__atomic_numbers__}')
 
-    def calculate(self, atoms=None, properties=['energy'],
-                  system_changes=all_changes):
-        if atoms is not None:
-            self.atoms = atoms.copy()
-        self.check_atomic_numbers(atoms)
+    def _call_method(self, atoms):
         r = atoms.get_positions() * ang2bohr
         x = r[:, 0]
         y = r[:, 1]
@@ -42,6 +39,14 @@ class BasePES(Calculator):
         f[:, 1] = -dy * hatree_bohr2ev_ang
         f[:, 2] = -dz * hatree_bohr2ev_ang
         e = e * hatree2ev
+        return e, f
+
+    def calculate(self, atoms=None, properties=['energy'],
+                  system_changes=all_changes):
+        if atoms is not None:
+            self.atoms = atoms.copy()
+        self.check_atomic_numbers(atoms)
+        e, f = self._call_method(atoms)
         self.results = {'energy': e, 'forces': f}
 
 
@@ -164,31 +169,6 @@ class N2O2tripletPES(BasePES):
     __atomic_numbers__ = [8, 8, 7, 7]
 
 
-# class C2H6OtripletPES(BasePESv1):
-#     """
-#     https://comp.chem.umn.edu/potlib/showPotential.cgi?id=c2h6oh-v2020
-# C        This potential is written such that:
-# C                       X(1)  - X(3)  : X, Y, Z for C1
-# C                       X(4)  - X(6)  : X, Y, Z for C2
-# C                       X(7)  - X(9)  : X, Y, Z for H1
-# C                       X(10) - X(12) : X, Y, Z for H2
-# C                       X(13) - X(15) : X, Y, Z for H3
-# C                       X(16) - X(18) : X, Y, Z for H4
-# C                       X(19) - X(21) : X, Y, Z for H5
-# C                       X(22) - X(24) : X, Y, Z for H6
-# C                       X(25) - X(27) : X, Y, Z for O
-# C                       X(28) - X(30) : X, Y, Z for HO
-#     """
-#     implemented_properties = [
-#         "energy",
-#         "forces", ]
-#     __pes__func__ = c2h6oh.pot
-#     __atomic_numbers__ = [6, 6] + [1] * 6 + [8, 1]
-#     c2h6 = molecule('C2H6')
-#     x = c2h6.get_positions()
-#     x = np.vstack((x, np.array([[0, 0, 2], [0 ,0, 3]])))
-#     example_molecule = Atoms('C2H6OH', positions=x)
-
 class CH4OH(BasePESv1):
     """
       J. Espinosa-Garcia and J. C. Corchado
@@ -210,28 +190,26 @@ class CH4OH(BasePESv1):
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
 
 
-class C2H6OH(BasePESv1):
+class H2O2(BasePES):
     """
-    C. Rangel, M. Garcia-Chamorro, J.C. Corchado and J. Espinosa-Garcia, PCCP, 22 14796 (2020)
-      https://comp.chem.umn.edu/potlib/showPotential.cgi?id=c2h6oh-v2020
+    https://comp.chem.umn.edu/potlib/showPotential.cgi?id=h2o2
     """
     implemented_properties = [
         "energy",
         "forces", ]
-    example_molecule = Atoms('C2H6OH', positions=np.array([[-2.70469798, 0.12751678, 0.00000000],
-                                                           [-2.19135576, 0.85347305, 1.25740497],
-                                                           [-2.34804355, -0.88129323, 0.00000000],
-                                                           [-2.34802514, 0.63191497, -0.87365150],
-                                                           [-3.77469798, 0.12752996, 0.00000000],
-                                                           [-1.12135757, 0.85176598, 1.25838332],
-                                                           [-2.54641232, 1.86284607, 1.25642758],
-                                                           [-2.54962472, 0.35020505, 2.13105517],
-                                                           [-2.02369196, 2.85589893, 2.47385774],
-                                                           [-1.75811093, 3.34840994, 3.25392159]]
+    __pes__func__ = h2o2.surf
+    __atomic_numbers__ = [1, 8, 8, 1]
+    example_molecule = Atoms('HOOH', positions=np.array([[0.839547, 0.880752, 0.422001],
+                                                         [0., 0.734058, -0.05275],
+                                                         [0., -0.734058, -0.05275],
+                                                         [-0.839547, -0.880752, 0.422001]]))
 
-                                                          ))
-    __pes__class__ = c2h6oh
-    __atomic_numbers__ = example_molecule.get_atomic_numbers()
+    def _call_method(self, atoms):
+        r = atoms.get_positions().flatten() * ang2bohr
+        e, f = self.__pes__func__(r)
+        f = -f * hatree_bohr2ev_ang
+        e = e * hatree2ev
+        return e, f.reshape(4, 3)
 
 
 if __name__ == '__main__':

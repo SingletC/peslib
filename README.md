@@ -6,6 +6,8 @@ current supported PES:
 - [N4_singlet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=PES_N4_singlet_umn_v3)
 - [N2O2_triplet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=PES_N2O2_triplet_umn_v3)
 - [CH4OH](https://doi.org/10.1063/1.481148)
+- [H2O2](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=h2o2)
+- 
 ## Installation
 make sure there is gfortran compiler installed
 ```bash

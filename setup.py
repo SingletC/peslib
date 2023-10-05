@@ -6,7 +6,7 @@ ext_modules = [
     Extension(name='peslibf.o4_triplet', sources=['./src/O4_triplet_v2.f', './src/O4_triplet_v2.pyf']),
     Extension(name='peslibf.n2o2_triplet', sources=['./src/N2O2_3A_MB-PIP-MEG2.f90', './src/N2O2_3A_MB-PIP-MEG2.pyf'],),
     Extension(name='peslibf.ch4oh', sources=['./src/ch4oh.pyf', './src/ch4oh.f','./src/lib/utility.f'],),
-    Extension(name='peslibf.c2h6oh', sources=['./src/c2h6oh.pyf', './src/c2h6oh-v2020.f','./src/lib/utility.f'],),
+    Extension(name='peslibf.h2o2', sources=['./src/h2o2.pyf', './src/h2o2.f'],),
 ]
 if __name__ == "__main__":
     setup(name='peslib',
