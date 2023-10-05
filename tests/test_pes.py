@@ -1,7 +1,7 @@
 from unittest import TestCase
 from ase.atoms import Atoms
 
-from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH,H2O2
+from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH,H2O2 , PhOH
 
 
 class TestPES(TestCase):
@@ -36,5 +36,11 @@ class TestPES(TestCase):
     def test_h2o2(self):
         atoms = H2O2.example_molecule
         atoms.calc = H2O2()
+        print(f'E : {atoms.get_potential_energy()}')
+        print(f'Force : {atoms.get_forces()}')
+
+    def test_phoh(self):
+        atoms = PhOH.example_molecule
+        atoms.calc = PhOH()
         print(f'E : {atoms.get_potential_energy()}')
         print(f'Force : {atoms.get_forces()}')
