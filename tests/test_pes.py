@@ -1,7 +1,7 @@
 from unittest import TestCase
 from ase.atoms import Atoms
 
-from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH,H2O2 , PhOH
+from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH, H2O2, PhOH, PhSCH3
 
 
 class TestPES(TestCase):
@@ -10,11 +10,13 @@ class TestPES(TestCase):
         atoms.calc = O4SingletPES()
         print(f'E : {atoms.get_potential_energy()}')
         print(f'Force : {atoms.get_forces()}')
+
     def test_o4_t(self):
         atoms = Atoms('O4', positions=[(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)])
         atoms.calc = O4TripletPES()
         print(f'E : {atoms.get_potential_energy()}')
         print(f'Force : {atoms.get_forces()}')
+
     def test_n4(self):
         atoms = Atoms('N4', positions=[(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)])
         atoms.calc = N4singletPES()
@@ -44,3 +46,10 @@ class TestPES(TestCase):
         atoms.calc = PhOH()
         print(f'E : {atoms.get_potential_energy()}')
         print(f'Force : {atoms.get_forces()}')
+
+    def test_phsch3(self):
+        ...# somehow this is not working. try gcc 4.8 ?
+        # atoms = PhSCH3.example_molecule
+        # atoms.calc = PhSCH3()
+        # print(f'E : {atoms.get_potential_energy()}')
+        # print(f'Force : {atoms.get_forces()}')

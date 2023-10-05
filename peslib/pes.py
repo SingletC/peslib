@@ -4,7 +4,7 @@ from typing import Callable, Tuple, List, Optional
 import numpy as np
 from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh
+from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3
 from ase.calculators.calculator import Calculator, all_changes
 
 ang2bohr = Angstrom / Bohr
@@ -239,6 +239,43 @@ class PhOH(BasePES):
     def _call_method(self, atoms):
         r = atoms.get_positions() * ang2bohr
         uu, guu, vv, gvv, dvec, cc = self.__pes__func__(1, r.T, 1)
+        # for now let us just test gs
+        e = vv[0]
+        f = - gvv[:, :, 0].T * hatree_bohr2ev_ang
+        return e, f
+
+
+class PhSCH3(BasePES):
+    """
+    only  adiabatic gs for now
+    """
+    implemented_properties = [
+        "energy",
+        "forces", ]
+    __pes__func__ = phsch3.pot
+    example_molecule = Atoms('C6H5SCH3',
+                             positions=np.array([[0.88692142, 1.30720469, 3.58194418],
+                                                 [1.52412154, 0.65733868, 2.51631191],
+                                                 [2.20802238, 1.40470952, 1.54799459],
+                                                 [2.25472475, 2.80194623, 1.64531061],
+                                                 [1.61752441, 3.45181226, 2.71094274],
+                                                 [0.93362294, 2.70444147, 3.67925965],
+                                                 [0.36474787, 0.73657047, 4.32127589],
+                                                 [1.48846314, -0.40948255, 2.44200890],
+                                                 [2.77689877, 3.37258041, 0.90597921],
+                                                 [1.65318199, 4.51863356, 2.78524521],
+                                                 [0.44710574, 3.20062865, 4.49289304],
+                                                 [3.01736537, 0.57927691, 0.19447144],
+                                                 [3.02122618, 1.64338030, -1.23243748],
+                                                 [2.01342382, 1.87507482, -1.50730483],
+                                                 [3.54483419, 2.54753046, -1.00168405],
+                                                 [3.50774135, 1.14719328, -2.04607219]]
+                                                ))
+    __atomic_numbers__ = example_molecule.get_atomic_numbers()
+
+    def _call_method(self, atoms):
+        r = atoms.get_positions() * ang2bohr
+        uu, guu, vv, gvv, dvec, cc = self.__pes__func__(1, r.T.astype(np.float64), 1)
         # for now let us just test gs
         e = vv[0]
         f = - gvv[:, :, 0].T * hatree_bohr2ev_ang

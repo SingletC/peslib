@@ -9,7 +9,8 @@ ext_modules = [
               sources=['./src/N2O2_3A_MB-PIP-MEG2.f90', './src/N2O2_3A_MB-PIP-MEG2.pyf'], ),
     Extension(name='peslibf.ch4oh', sources=['./src/ch4oh.pyf', './src/ch4oh.f', './src/lib/utility.f'], ),
     Extension(name='peslibf.h2o2', sources=['./src/h2o2.pyf', './src/h2o2.f'], ),
-    Extension(name='peslibf.phoh', sources=['./src/phoh.pyf', './src/phoh_aprp.f'],libraries=['lapack'] ),
+    Extension(name='peslibf.phoh', sources=['./src/phoh.pyf', './src/phoh_aprp.f'], libraries=['lapack']),
+    Extension(name='peslibf.phsch3', sources=['./src/phsch3.f90', './src/phsch3.pyf'], libraries=['lapack']),
 ]
 if __name__ == "__main__":
     setup(name='peslib',

@@ -1,0 +1,22 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module phsch3 ! in 
+    interface  ! in :phsch3
+        subroutine pot(igrad,xx,uu,guu,vv,gvv,dvec,cc,repflag) ! in :phsch3:./phsch3_II.f90
+            integer :: igrad
+            double precision dimension(3,16),intent(in) :: xx
+            double precision dimension(3,3),intent(out) :: uu
+            double precision dimension(3,16,3,3),intent(out) :: guu
+            double precision dimension(3),intent(out) :: vv
+            double precision dimension(3,16,3),intent(out) :: gvv
+            double precision dimension(3,16,3,3),intent(out) :: dvec
+            double precision dimension(3,3),intent(out) :: cc
+            integer :: repflag,intent(in)
+        end subroutine pot
+    end interface 
+end python module phsch3
+
+! This file was auto-generated with f2py (version:1.23.5).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e
