@@ -4,7 +4,7 @@ current supported PES:
 - [O4 singlet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=O4_singlet)
 - [O4 triplet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=O4_triplet_v2)
 - [N4_singlet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=PES_N4_singlet_umn_v3)
-- [N2O2_triplet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=PES_N2O2_triplet_umn_v3)
+- [N2O2_triplet](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=N2O2_3A_MB-PIP-MEG2)
 - [CH4OH](https://doi.org/10.1063/1.481148)
 - [H2O2](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=h2o2)
 - [PhOH](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=phoh_aprp) *adiabatic gs
