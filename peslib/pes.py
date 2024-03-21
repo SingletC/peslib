@@ -4,7 +4,7 @@ from typing import Callable, Tuple, List, Optional
 import numpy as np
 from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3
+from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3
 from ase.calculators.calculator import Calculator, all_changes
 
 ang2bohr = Angstrom / Bohr
@@ -49,6 +49,16 @@ class BasePES(Calculator):
         e, f = self._call_method(atoms)
         self.results = {'energy': e, 'forces': f}
 
+
+class DiabaticPES(BasePES):
+    __pes__func__: Callable[
+        [np.ndarray, np.ndarray, np.ndarray], Tuple[float, np.ndarray, np.ndarray, np.ndarray]] = None
+    __atomic_numbers__: Optional[List[int]] = None
+    example_molecule: Optional[Atoms] = None
+
+    def __init__(self, state: int = 0, **kwargs):
+        Calculator.__init__(self, **kwargs)
+        self.state = state
 
 class BasePESv1(BasePES):
     """
@@ -282,7 +292,37 @@ class PhSCH3(BasePES):
         return e, f
 
 
-if __name__ == '__main__':
-    atoms = Atoms('N4', positions=[(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)])
-    atoms.calc = N4singletPES()
+class OH3(DiabaticPES):
+    """
+    only  adiabatic gs for now
+    """
+    implemented_properties = [
+        "energy",
+        "forces", ]
+    __pes__func__ = oh3.oh3_pes_truhlar
+    example_molecule = Atoms('OH3',
+                             positions=np.array([[-1.68972339, -0.33596837, 0.00000000],
+                                                 [-0.73375066, -0.42380993, 0.00000000],
+                                                 [-2.09163674, 0.53584907, 0.00000000],
+                                                 [-2.24378277, -1.11994427, 0.00000000],
+                                                 ]
+                                                ))
+
+    __atomic_numbers__ = example_molecule.get_atomic_numbers()
+
+    def _call_method(self, atoms):
+        r = atoms.get_positions() * ang2bohr
+        u,ga = self.__pes__func__(r.T.astype(np.float64))
+        # for now let us just test gs
+
+        return u[self.state,self.state], ga[self.state].T * hatree_bohr2ev_ang
+
+
+if __name__ == '__main__':# debug purposes
+    atoms = OH3.example_molecule
+    atoms.calc = OH3(state=1)
     atoms.get_potential_energy()
+    atoms.get_forces()
+    from ase.optimize import BFGS
+    opt = BFGS(atoms)
+    opt.run(fmax=0.01)

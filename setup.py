@@ -11,6 +11,7 @@ ext_modules = [
     Extension(name='peslibf.h2o2', sources=['./src/h2o2.pyf', './src/h2o2.f'], ),
     Extension(name='peslibf.phoh', sources=['./src/phoh.pyf', './src/phoh_aprp.f'], libraries=['lapack', 'blas']),
     Extension(name='peslibf.phsch3', sources=['./src/phsch3.f90', './src/phsch3.pyf'], libraries=['lapack', 'blas']),
+    Extension(name='peslibf.oh3', sources=['./src/oh3.f90', './src/oh3.pyf','./src/lib/oh3_util.f90'], libraries=['lapack', 'blas']),
 ]
 if __name__ == "__main__":
     setup(name='peslib',
