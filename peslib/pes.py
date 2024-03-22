@@ -60,6 +60,7 @@ class DiabaticPES(BasePES):
         Calculator.__init__(self, **kwargs)
         self.state = state
 
+
 class BasePESv1(BasePES):
     """
     POTLIB type 1 interface.
@@ -294,7 +295,11 @@ class PhSCH3(BasePES):
 
 class OH3(DiabaticPES):
     """
-    only  adiabatic gs for now
+    OH3 multi state surface
+    "Semiclassical Trajectory Studies of Reactive and Nonreactive Scattering of OH(A2Σ+) by H2 Based
+    on an Improved Full-Dimensional Ab Initio Diabatic Potential Energy Matrix"
+    Shanyu Han, Antonio Gustavo Sampaio de Oliveira Filho, Yinan Shu, Donald G. Truhlar, and Hua Guo
+    ChemPhysChem 2022, 23, e202200039
     """
     implemented_properties = [
         "energy",
@@ -312,17 +317,18 @@ class OH3(DiabaticPES):
 
     def _call_method(self, atoms):
         r = atoms.get_positions() * ang2bohr
-        u,ga = self.__pes__func__(r.T.astype(np.float64))
+        u, ga = self.__pes__func__(r.T.astype(np.float64))
         # for now let us just test gs
 
-        return u[self.state,self.state], ga[self.state].T * hatree_bohr2ev_ang
+        return u[self.state, self.state], ga[self.state].T * hatree_bohr2ev_ang
 
 
-if __name__ == '__main__':# debug purposes
+if __name__ == '__main__':  # debug purposes
     atoms = OH3.example_molecule
     atoms.calc = OH3(state=1)
     atoms.get_potential_energy()
     atoms.get_forces()
     from ase.optimize import BFGS
+
     opt = BFGS(atoms)
     opt.run(fmax=0.01)
