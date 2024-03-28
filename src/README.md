@@ -1,7 +1,10 @@
+developer notes:  
+
+
 type 2 interface need fine tune
 
 ```bash
-f2yp -m foo -h foo.pyf foo.f90
+f2py -m foo -h foo.pyf foo.f90
 ```
 remove all irrelevant function in the generated pyf file    
 update setup.py  

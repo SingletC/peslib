@@ -55,9 +55,12 @@ class DiabaticPES(BasePES):
         [np.ndarray, np.ndarray, np.ndarray], Tuple[float, np.ndarray, np.ndarray, np.ndarray]] = None
     __atomic_numbers__: Optional[List[int]] = None
     example_molecule: Optional[Atoms] = None
+    states: int = 0
 
     def __init__(self, state: int = 0, **kwargs):
         Calculator.__init__(self, **kwargs)
+        if state >= self.states:
+            raise ValueError(f'{self.__class__.__name__} only support {self.states} states')
         self.state = state
 
 
@@ -314,6 +317,7 @@ class OH3(DiabaticPES):
                                                 ))
 
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
+    states = 3
 
     def _call_method(self, atoms):
         r = atoms.get_positions() * ang2bohr
@@ -321,6 +325,7 @@ class OH3(DiabaticPES):
         # for now let us just test gs
 
         return u[self.state, self.state], ga[self.state].T * hatree_bohr2ev_ang
+
 
 # class CH2OH(DiabaticPES):
 #     """
@@ -351,24 +356,35 @@ class OH3(DiabaticPES):
 #
 #         return u[self.state, self.state], ga[self.state].T * hatree_bohr2ev_ang
 
-class NH3(BasePESv1):
+class NH3(DiabaticPES):
     """
-      J. Espinosa-Garcia and J. C. Corchado
-      J. Chem. Phys., Vol. 112, p. 5731, 2000
+    OH3 multi state surface
+      1) Nangia, S.; Truhlar, D.G. J. Chem. Phys. 2006, 124, 124309
+      2) Li, Z.H.; Valero, R., Truhlar, D.G. Theor. Chem. Acc. 2007,
+         118, 9-24.
     """
     implemented_properties = [
         "energy",
         "forces", ]
     example_molecule = Atoms('NH3', positions=np.array([[1.59050433, -0.42711963, 2.16479382],
-                                                           [0.72147150, 0.12403254, 1.87202512],
-                                                           [-0.15513447, -0.44718081, 2.09536767],
-                                                           [0.76099165, 0.32025874, 0.82102483]]))
-    __pes__class__ = nh3
+                                                        [0.72147150, 0.12403254, 1.87202512],
+                                                        [-0.15513447, -0.44718081, 2.09536767],
+                                                        [0.76099165, 0.32025874, 0.82102483]]))
+    __pes__func__ = nh3.pot
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
+    states = 2
+
+    def _call_method(self, atoms):
+        r = atoms.get_positions() * ang2bohr
+        u11, u22, u12, v1, v2, gu11, gu22, gu12, gv1, gv2 = self.__pes__func__(r.flatten())
+        r = [(v1 * hatree2ev, -gv1.reshape(-1, 3) * hatree_bohr2ev_ang),
+             (v2 * hatree2ev, -gv2.reshape(-1, 3) * hatree_bohr2ev_ang)]
+        return r[self.state]
+
 
 if __name__ == '__main__':  # debug purposes
-    atoms = OH3.example_molecule
-    atoms.calc = OH3()
+    atoms = NH3.example_molecule
+    atoms.calc = NH3(state=0)
     atoms.get_potential_energy()
     atoms.get_forces()
     from ase.optimize import BFGS

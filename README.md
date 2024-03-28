@@ -9,7 +9,7 @@ current supported PES:
 - [H2O2](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=h2o2)
 - [PhOH](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=phoh_aprp) *adiabatic gs
 - [OH3](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=oh3pes2022) 3 states
-- [NH3] dev 2 states
+- [NH3](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=nh3code2) 2 states
 - [CH2OH] external file I/O interface
 ## Installation
 make sure there is gfortran compiler installed

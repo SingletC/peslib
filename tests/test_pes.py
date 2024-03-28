@@ -1,7 +1,7 @@
 from unittest import TestCase
 from ase.atoms import Atoms
 
-from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH, H2O2, PhOH, PhSCH3
+from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH, H2O2, PhOH, PhSCH3, NH3, OH3
 
 
 class TestPES(TestCase):
@@ -47,8 +47,22 @@ class TestPES(TestCase):
         print(f'E : {atoms.get_potential_energy()}')
         print(f'Force : {atoms.get_forces()}')
 
+    def test_oh3(self):
+        for i in [0, 1, 2]:  # three states
+            atoms = OH3.example_molecule
+            atoms.calc = OH3(state=i)
+            print(f'E : {atoms.get_potential_energy()}')
+            print(f'Force : {atoms.get_forces()}')
+
+    def test_nh3(self):
+        for i in [0, 1]:  # two states
+            atoms = NH3.example_molecule
+            atoms.calc = NH3(state=i)
+            print(f'E : {atoms.get_potential_energy()}')
+            print(f'Force : {atoms.get_forces()}')
+
     def test_phsch3(self):
-        ...# somehow this is not working. try gcc 4.8 ?
+        ...  # somehow this is not working. try gcc 4.8 ?
         # atoms = PhSCH3.example_molecule
         # atoms.calc = PhSCH3()
         # print(f'E : {atoms.get_potential_energy()}')

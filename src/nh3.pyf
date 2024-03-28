@@ -4,17 +4,17 @@
 python module nh3 ! in 
     interface  ! in :nh3
         subroutine pot(xcart,u11,u22,u12,v1,v2,gu11,gu22,gu12,gv1,gv2) ! in :nh3:nh3.f
-            double precision dimension(12) :: xcart
-            double precision :: u11
-            double precision :: u22
-            double precision :: u12
-            double precision :: v1
-            double precision :: v2
-            double precision dimension(12) :: gu11
-            double precision dimension(12) :: gu22
-            double precision dimension(12) :: gu12
-            double precision dimension(12) :: gv1
-            double precision dimension(12) :: gv2
+            double precision dimension(12),intent(in) :: xcart
+            double precision,intent(out) :: u11
+            double precision,intent(out)  :: u22
+            double precision,intent(out)  :: u12
+            double precision,intent(out)  :: v1
+            double precision,intent(out)  :: v2
+            double precision dimension(12),intent(out)  :: gu11
+            double precision dimension(12),intent(out)  :: gu22
+            double precision dimension(12),intent(out)  :: gu12
+            double precision dimension(12),intent(out)  :: gv1
+            double precision dimension(12),intent(out)  :: gv2
         end subroutine pot
         subroutine prepot ! in :nh3:nh3.f
         end subroutine prepot
