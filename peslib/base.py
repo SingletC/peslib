@@ -1,7 +1,5 @@
 import io
-import os
 import subprocess
-from abc import abstractmethod
 from typing import Callable, Tuple, List, Optional
 
 import numpy as np
@@ -9,7 +7,6 @@ from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
 
 from peslib.utils import atoms_to_eval_surf_io
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3, ch2oh
 from ase.calculators.calculator import Calculator, all_changes
 from pathlib import Path
 
