@@ -10,7 +10,7 @@ current supported PES:
 - [PhOH](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=phoh_aprp) *adiabatic gs
 - [OH3](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=oh3pes2022) 3 states
 - [NH3](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=nh3code2) 2 states
-- [CH2OH] external file I/O interface
+- [CH2OH](https://comp.chem.umn.edu/potlib/showPotential.cgi?id=CH2OH_3) 3 states: slow I/O interface
 ## Installation
 make sure there is gfortran compiler installed
 ```bash
