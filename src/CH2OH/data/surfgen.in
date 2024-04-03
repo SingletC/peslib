@@ -1,0 +1,17 @@
+/
+&GENERAL
+printlvl=5
+jobtype=1
+natoms=5
+atmgrp=1,2,3,3,4
+cntfl='connect.in'
+ngrp=3
+groupsym=2,1,1
+groupprty=-1,1,1
+order=3
+inputfl='hd.data'
+/
+&MAKESURF
+/
+&potlib
+/

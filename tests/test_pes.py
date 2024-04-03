@@ -1,7 +1,8 @@
 from unittest import TestCase
 from ase.atoms import Atoms
 
-from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH, H2O2, PhOH, PhSCH3, NH3, OH3
+from peslib.pes import O4SingletPES, N4singletPES, O4TripletPES, N2O2tripletPES, CH4OH, H2O2, PhOH, PhSCH3, NH3, OH3, \
+    CH2OH
 
 
 class TestPES(TestCase):
@@ -58,6 +59,13 @@ class TestPES(TestCase):
         for i in [0, 1]:  # two states
             atoms = NH3.example_molecule
             atoms.calc = NH3(state=i)
+            print(f'E : {atoms.get_potential_energy()}')
+            print(f'Force : {atoms.get_forces()}')
+
+    def test_ch2oh(self):
+        for i in [0, 1, 2]:  # two states
+            atoms = CH2OH.example_molecule
+            atoms.calc = CH2OH(state=i)
             print(f'E : {atoms.get_potential_energy()}')
             print(f'Force : {atoms.get_forces()}')
 
