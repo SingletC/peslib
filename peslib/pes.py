@@ -1,105 +1,19 @@
+import os
 from abc import abstractmethod
 from typing import Callable, Tuple, List, Optional
 
 import numpy as np
 from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3
+
+from peslib.base import BasePES, BasePESv1, DiabaticPES, EvalSurfIO
+from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3, ch2oh
 from ase.calculators.calculator import Calculator, all_changes
+from pathlib import Path
 
 ang2bohr = Angstrom / Bohr
 hatree2ev = Hartree / eV
 hatree_bohr2ev_ang = hatree2ev * ang2bohr
-
-
-class BasePES(Calculator):
-    __pes__func__: Callable[
-        [np.ndarray, np.ndarray, np.ndarray], Tuple[float, np.ndarray, np.ndarray, np.ndarray]] = None
-    __atomic_numbers__: Optional[List[int]] = None
-    example_molecule: Optional[Atoms] = None
-
-    def __init__(self, **kwargs):
-        Calculator.__init__(self, **kwargs)
-
-    def check_atomic_numbers(self, atoms: Atoms):
-        if self.__atomic_numbers__ is None:
-            return
-        if not (atoms.get_atomic_numbers() == self.__atomic_numbers__).all():
-            raise ValueError(
-                f'order of Atomic numbers of atoms should be {self.__atomic_numbers__}')
-
-    def _call_method(self, atoms):
-        r = atoms.get_positions() * ang2bohr
-        x = r[:, 0]
-        y = r[:, 1]
-        z = r[:, 2]
-        e, dx, dy, dz = self.__pes__func__(x, y, z)
-        f = np.empty((4, 3))
-        f[:, 0] = -dx * hatree_bohr2ev_ang
-        f[:, 1] = -dy * hatree_bohr2ev_ang
-        f[:, 2] = -dz * hatree_bohr2ev_ang
-        e = e * hatree2ev
-        return e, f
-
-    def calculate(self, atoms=None, properties=['energy'],
-                  system_changes=all_changes):
-        if atoms is not None:
-            self.atoms = atoms.copy()
-        self.check_atomic_numbers(atoms)
-        e, f = self._call_method(atoms)
-        self.results = {'energy': e, 'forces': f}
-
-
-class DiabaticPES(BasePES):
-    __pes__func__: Callable[
-        [np.ndarray, np.ndarray, np.ndarray], Tuple[float, np.ndarray, np.ndarray, np.ndarray]] = None
-    __atomic_numbers__: Optional[List[int]] = None
-    example_molecule: Optional[Atoms] = None
-    states: int = 0
-
-    def __init__(self, state: int = 0, **kwargs):
-        Calculator.__init__(self, **kwargs)
-        if state >= self.states:
-            raise ValueError(f'{self.__class__.__name__} only support {self.states} states')
-        self.state = state
-
-
-class BasePESv1(BasePES):
-    """
-    POTLIB type 1 interface.
-    """
-    __pes__class__: object = None
-    _NASURF = np.zeros((6, 6), dtype=int)
-    _NASURF[0] = 1
-    _NFLAG = np.zeros(20).astype(int)
-    _NFLAG[0] = 1
-    _NFLAG[1] = 1
-    _NDER = 1  # 1st gradient
-
-    def __init__(self):
-        BasePES.__init__(self)
-        self.__pes__class__.prepot()
-
-    def calculate(self, atoms=None, properties=['energy'],
-                  system_changes=all_changes):
-        if atoms is not None:
-            self.atoms = atoms.copy()
-        self.check_atomic_numbers(atoms)
-        r = atoms.get_positions().flatten() * ang2bohr
-        # make it 75 array by filling zero
-        r = np.hstack((r, np.zeros(75 - len(r)))).reshape(-1, 3)
-
-        self.__pes__class__.usricm.cart = r
-        self.__pes__class__.usricm.NFLAG = self._NFLAG
-        self.__pes__class__.usricm.nder = self._NDER
-        self.__pes__class__.usricm.nasurf = self._NASURF
-
-        self.__pes__class__.pot()
-        e, dx = self.__pes__class__.usrocm.pengygs, self.__pes__class__.usrocm.dgscart  # why dedx is in the middle?
-        dx = dx[~(dx == 0).all(axis=1)]  # dangerous, if some row indeed is zero will be removed.
-        f = -dx * hatree_bohr2ev_ang
-        e = e * hatree2ev
-        self.results = {'energy': e, 'forces': f}
 
 
 class O4SingletPES(BasePES):
@@ -327,34 +241,29 @@ class OH3(DiabaticPES):
         return u[self.state, self.state], ga[self.state].T * hatree_bohr2ev_ang
 
 
-# class CH2OH(DiabaticPES):
-#     """
-#     OH3 multi state surface
-#     "Semiclassical Trajectory Studies of Reactive and Nonreactive Scattering of OH(A2Σ+) by H2 Based
-#     on an Improved Full-Dimensional Ab Initio Diabatic Potential Energy Matrix"
-#     Shanyu Han, Antonio Gustavo Sampaio de Oliveira Filho, Yinan Shu, Donald G. Truhlar, and Hua Guo
-#     ChemPhysChem 2022, 23, e202200039
-#     """
-#     implemented_properties = [
-#         "energy",
-#         "forces", ]
-#     __pes__func__ = ch2oh.evaluate_surface
-#     example_molecule = Atoms('CH2OH',
-#                              positions=np.array([[ 2.03750043,  -0.07267485,    0.00000000],
-#                                                 [ 0.96750091,  -0.07165466,    0.00000000],
-#                                                 [ 2.57161668,  -0.99983170,    0.00000000],
-#                                                 [ 2.68922463,   1.05366314,    0.00000000],
-#                                                 [ 1.59384983,   0.60164248,   -1.51722585],]
-#                                                 ))
-#
-#     __atomic_numbers__ = example_molecule.get_atomic_numbers()
-#
-#     def _call_method(self, atoms):
-#         r = atoms.get_positions() * ang2bohr
-#         u, ga = self.__pes__func__(r.T.astype(np.float64))
-#         # for now let us just test gs
-#
-#         return u[self.state, self.state], ga[self.state].T * hatree_bohr2ev_ang
+class CH2OH(EvalSurfIO):
+    """
+    CH2OH multi state surface
+    "Semiclassical Trajectory Studies of Reactive and Nonreactive Scattering of OH(A2Σ+) by H2 Based
+    on an Improved Full-Dimensional Ab Initio Diabatic Potential Energy Matrix"
+    Shanyu Han, Antonio Gustavo Sampaio de Oliveira Filho, Yinan Shu, Donald G. Truhlar, and Hua Guo
+    ChemPhysChem 2022, 23, e202200039
+    """
+    implemented_properties = [
+        "energy",
+        "forces", ]
+    example_molecule = Atoms('OCH3',
+                             positions=np.array([[1.11580178, 0.49794644, -0.10829221],
+                                                 [-1.42643703, 0.05707492, -0.12098057],
+                                                 [-2.06853060, -1.86755627, -0.24294965],
+                                                 [-2.48213189, 1.43163121, 0.92858405],
+                                                 [1.95164196, -0.88179897, -0.94048539], ]
+                                                ))
+
+    __atomic_numbers__ = example_molecule.get_atomic_numbers()
+    states = 2
+    data_dir = Path(__file__).parent.parent / 'src/CH2OH/data/'
+
 
 class NH3(DiabaticPES):
     """
@@ -383,8 +292,8 @@ class NH3(DiabaticPES):
 
 
 if __name__ == '__main__':  # debug purposes
-    atoms = NH3.example_molecule
-    atoms.calc = NH3(state=0)
+    atoms = CH2OH.example_molecule
+    atoms.calc = CH2OH(state=0)
     atoms.get_potential_energy()
     atoms.get_forces()
     from ase.optimize import BFGS
