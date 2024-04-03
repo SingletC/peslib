@@ -7,7 +7,7 @@ from ase import Atoms
 from ase.units import Bohr, Angstrom, Hartree, eV
 
 from peslib.base import BasePES, BasePESv1, DiabaticPES, EvalSurfIO
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3, ch2oh
+from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3
 from ase.calculators.calculator import Calculator, all_changes
 from pathlib import Path
 
