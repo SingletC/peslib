@@ -253,7 +253,7 @@ class CH2OH(EvalSurfIO):
                                                  [-2.06853060, -1.86755627, -0.24294965],
                                                  [-2.48213189, 1.43163121, 0.92858405],
                                                  [1.95164196, -0.88179897, -0.94048539], ]
-                                                ))
+                                                )/ang2bohr)
 
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
     states = 3
@@ -289,9 +289,13 @@ class NH3(DiabaticPES):
 if __name__ == '__main__':  # debug purposes
     atoms = CH2OH.example_molecule
     atoms.calc = CH2OH(state=0)
-    atoms.get_potential_energy()
-    atoms.get_forces()
+    # atoms2 = atoms.copy()
+    # atoms2.calc = CH2OH(state=1)
+    # atoms.get_potential_energy()
+    # atoms.get_forces()
     from ase.optimize import BFGS
 
-    opt = BFGS(atoms)
+    opt = BFGS(atoms,maxstep=0.01)
     opt.run(fmax=0.01)
+    # opt = BFGS(atoms2)
+    # opt.run(fmax=0.01)
