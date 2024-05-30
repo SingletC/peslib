@@ -1,6 +1,8 @@
 from ase import Atoms, Atom
-from sharcGP.utils import ang2bohr
-
+from ase.units import Bohr, Angstrom, Hartree, eV
+ang2bohr = Angstrom / Bohr
+hatree2ev = Hartree / eV
+hatree_bohr2ev_ang = hatree2ev * ang2bohr
 
 def atoms_to_eval_surf_io(atoms: Atoms) -> str:
     """

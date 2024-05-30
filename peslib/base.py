@@ -4,15 +4,12 @@ from typing import Callable, Tuple, List, Optional
 
 import numpy as np
 from ase import Atoms
-from ase.units import Bohr, Angstrom, Hartree, eV
 
-from peslib.utils import atoms_to_eval_surf_io
+from peslib.utils import atoms_to_eval_surf_io, ang2bohr, hatree_bohr2ev_ang, hatree2ev
 from ase.calculators.calculator import Calculator, all_changes
 from pathlib import Path
 
-ang2bohr = Angstrom / Bohr
-hatree2ev = Hartree / eV
-hatree_bohr2ev_ang = hatree2ev * ang2bohr
+
 
 
 class BasePES(Calculator):
