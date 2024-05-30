@@ -1,6 +1,13 @@
 from numpy.distutils.core import setup, Extension
 import subprocess
-library_dirs = None#[]
+library_dirs = None #[]
+
+'''
+ or
+ setenv LIBRARY_PATH "$LIBRARY_PATH":"blas"
+                                                                                                                       bck:set
+ setenv BLASDIR blas
+'''
 subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 ext_modules = [
