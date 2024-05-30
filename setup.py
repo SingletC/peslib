@@ -1,6 +1,6 @@
 from numpy.distutils.core import setup, Extension
 import subprocess
-library_dirs = []
+library_dirs = None#[]
 subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 ext_modules = [
