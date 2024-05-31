@@ -1,5 +1,6 @@
 from numpy.distutils.core import setup, Extension
 import subprocess
+import shutil
 library_dirs = None #[]
 
 '''
@@ -9,7 +10,8 @@ library_dirs = None #[]
  setenv BLASDIR blas
 '''
 subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
-subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
+subprocess.run(['make','install'], cwd='src/CH2OH', stdout=subprocess.PIPE)
+shutil.copy("src/CH2OH/evalsurf.x","./peslib/evalsurf.x")
 ext_modules = [
     Extension(name='peslibf.o4_singlet', sources=['./src/O4_singlet.f90', './src/O4_singlet.pyf'], ),
     Extension(name='peslibf.n4_singlet',
@@ -32,7 +34,7 @@ ext_modules = [
 if __name__ == "__main__":
     setup(name='peslib',
           packages=['peslib'],
-          package_data={'peslib':['data/**/*']},
+          package_data={'peslib':['data/**/*','evalsurf.x']},
           ext_modules=ext_modules,
           install_requires=[
               'ase',

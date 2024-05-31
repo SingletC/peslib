@@ -108,7 +108,7 @@ class EvalSurfIO(DiabaticPES):
     """
 
     data_dir: Path
-    executable_path = Path(__file__).parent.parent / 'src/CH2OH/evalsurf.x'
+    executable_path = Path(__file__).parent / 'evalsurf.x'
 
     def _call_method(self, atoms):
         # create in-memory tmp file
