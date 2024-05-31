@@ -32,6 +32,7 @@ ext_modules = [
 if __name__ == "__main__":
     setup(name='peslib',
           packages=['peslib'],
+          package_data={'peslib':['data/*']},
           ext_modules=ext_modules,
           install_requires=[
               'ase',
