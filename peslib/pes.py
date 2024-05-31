@@ -253,7 +253,7 @@ class CH2OH(EvalSurfIO):
 
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
     states = 3
-    data_dir = Path(__file__).parent.parent / 'src/CH2OH/data/'
+    data_dir = Path(__file__).parent / 'data/CH2OH/'
 
 
 class NH3(DiabaticPES):
