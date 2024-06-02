@@ -8,7 +8,7 @@ FCOPT:=-g -fdefault-integer-8 -fopenmp
 
 all:	lib $(OBJECTS)
 	$(FC) $(FCOPT) -c evalsurf.f90
-	$(FC) $(FCOPT) -o evalsurf.x evalsurf.o libsurfgen.a -lblas -llapack
+	$(FC) $(FCOPT) -o evalsurf.x evalsurf.o libsurfgen.a -llapack -lblas
 
 lib:	$(LIBOBJS)
 	$(AR) -r -v libsurfgen.a $(LIBOBJS)
