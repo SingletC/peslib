@@ -1,3 +1,5 @@
+import os.path
+
 from numpy.distutils.core import setup, Extension
 import subprocess
 import shutil
@@ -13,7 +15,9 @@ library_dirs = None #[]
 '''
 subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
-shutil.copy("src/CH2OH/evalsurf.x","./peslib/")
+if not os.path.exists('peslib/evalsurf.x'):
+    raise FileNotFoundError('evalsurf.x compile failed')
+# shutil.copy("src/CH2OH/evalsurf.x","./peslib/")
 ext_modules = [
     Extension(name='peslibf.o4_singlet', sources=['./src/O4_singlet.f90', './src/O4_singlet.pyf'], ),
     Extension(name='peslibf.n4_singlet',
