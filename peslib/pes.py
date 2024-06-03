@@ -3,6 +3,7 @@ from ase import Atoms
 
 from peslib.base import BasePES, BasePESv1, DiabaticPES, EvalSurfIO
 from peslib.utils import ang2bohr, hatree_bohr2ev_ang, hatree2ev
+from peslib.utils import num_gradient
 from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3
 from pathlib import Path
 
@@ -284,14 +285,16 @@ class NH3(DiabaticPES):
 
 if __name__ == '__main__':  # debug purposes
     atoms = CH2OH.example_molecule
-    atoms.calc = CH2OH(state=0)
+    atoms.calc = CH2OH(state=1)
     # atoms2 = atoms.copy()
     # atoms2.calc = CH2OH(state=1)
     # atoms.get_potential_energy()
     # atoms.get_forces()
     from ase.optimize import BFGS
-
     opt = BFGS(atoms,maxstep=0.01)
-    opt.run(fmax=0.01)
-    # opt = BFGS(atoms2)
-    # opt.run(fmax=0.01)
+    for converge in opt.irun():
+        f_num = num_gradient(atoms)
+
+        f_analytic = - atoms.get_forces()
+        print(np.max(abs(f_num - f_analytic)))
+

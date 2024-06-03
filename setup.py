@@ -3,7 +3,8 @@ import os.path
 from numpy.distutils.core import setup, Extension
 import subprocess
 import shutil
-library_dirs = None #[]
+
+library_dirs = None  #[]
 
 '''
  or
@@ -15,9 +16,9 @@ library_dirs = None #[]
 '''
 subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
-if not os.path.exists('peslib/evalsurf.x'):
+if not os.path.exists('src/CH2OH/evalsurf.x'):
     raise FileNotFoundError('evalsurf.x compile failed')
-# shutil.copy("src/CH2OH/evalsurf.x","./peslib/")
+shutil.copy("src/CH2OH/evalsurf.x","./peslib/")
 ext_modules = [
     Extension(name='peslibf.o4_singlet', sources=['./src/O4_singlet.f90', './src/O4_singlet.pyf'], ),
     Extension(name='peslibf.n4_singlet',
@@ -32,19 +33,19 @@ ext_modules = [
     Extension(name='peslibf.phsch3', sources=['./src/phsch3.f90', './src/phsch3.pyf'], libraries=['lapack', 'blas'],
               library_dirs=library_dirs),
     Extension(name='peslibf.oh3', sources=['./src/oh3.f90', './src/oh3.pyf', './src/lib/oh3_util.f90'],
-              libraries=['lapack', 'blas'],library_dirs=library_dirs),
+              libraries=['lapack', 'blas'], library_dirs=library_dirs),
     Extension(name='peslibf.nh3', sources=['./src/nh3.f', './src/nh3.pyf']),
     #           ),
 
 ]
 
 setup(name='peslib',
-          packages=['peslib'],
-          package_data={'peslib':['data/**/*','evalsurf.x']},
-          ext_modules=ext_modules,
-          install_requires=[
-              'ase',
-              'numpy',
-          ]
+      packages=['peslib'],
+      package_data={'peslib': ['data/**/*', './evalsurf.x']},
+      ext_modules=ext_modules,
+      install_requires=[
+          'ase',
+          'numpy',
+      ]
 
-          )
+      )
