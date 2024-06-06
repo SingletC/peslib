@@ -236,10 +236,8 @@ class OH3(DiabaticPES):
 class CH2OH(EvalSurfIO):
     """
     CH2OH multi state surface
-    "Semiclassical Trajectory Studies of Reactive and Nonreactive Scattering of OH(A2Σ+) by H2 Based
-    on an Improved Full-Dimensional Ab Initio Diabatic Potential Energy Matrix"
-    Shanyu Han, Antonio Gustavo Sampaio de Oliveira Filho, Yinan Shu, Donald G. Truhlar, and Hua Guo
-    ChemPhysChem 2022, 23, e202200039
+    C. L. Malbon and D. R. Yarkony "Multistate, multichannel coupled diabatic state representations of adiabatic states coupled
+    by conical intersections. CH2OH photodissociation." J. Chem. Phys. 146, 134302 (2017).
     """
     implemented_properties = [
         "energy",
