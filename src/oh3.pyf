@@ -3,21 +3,12 @@
 
 python module oh3 ! in 
     interface  ! in :oh3
-        subroutine oh3_pes_truhlar(x,u,ga) ! in :oh3:oh3.f90
+        subroutine oh3_pes_truhlar(x,a,ga) ! in :oh3:oh3.f90
             real*8 dimension(3,4),intent(in) :: x
-!            real*8 intent(out) :: v2
-!            real*8 intent(out) :: v3
-!            real*8 intent(out) :: v1
-!            real(kind=8) intent(out) :: u11
-!            real(kind=8) intent(out):: u22
-!            real(kind=8) intent(out):: u33
-!            real(kind=8) intent(out):: u12
-!            real(kind=8) intent(out):: u13
-!            real(kind=8) intent(out):: u23
-            real(kind=8) dimension(3,4),intent(out) :: u
-            real(kind=8) dimension(3,3,4),intent(out) :: ga
+            real(kind=8) dimension(3),intent(out) :: a
+            real(kind=8) dimension(4,3,3),intent(out)  :: ga
         end subroutine oh3_pes_truhlar
-    end interface
+    end interface 
 end python module oh3
 
 ! This file was auto-generated with f2py (version:1.23.5).

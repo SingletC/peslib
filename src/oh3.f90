@@ -74,7 +74,7 @@
 
 
 
-subroutine oh3_pes_truhlar(x,u,ga)
+subroutine oh3_pes_truhlar(x,a,ga)
   implicit none
   real*8,intent(in) :: x(3,4) !! cartesian coordinate of O H H H, Bohr
   real*8 :: v1,v2,v3 !! potential energy in Hartree

@@ -227,10 +227,10 @@ class OH3(DiabaticPES):
 
     def _call_method(self, atoms):
         r = atoms.get_positions() * ang2bohr
-        u, ga = self.__pes__func__(r.T.astype(np.float64))
+        a, ga = self.__pes__func__(r.T.astype(np.float64))
         # for now let us just test gs
 
-        return u[self.state, self.state], ga[self.state].T * hatree_bohr2ev_ang
+        return a[self.state], ga[::,self.state] * hatree_bohr2ev_ang
 
 
 class CH2OH(EvalSurfIO):
