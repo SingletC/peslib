@@ -213,12 +213,13 @@ class OH3(DiabaticPES):
     implemented_properties = [
         "energy",
         "forces", ]
-    __pes__func__ = oh3.oh3_pes_truhlar
+    __pes__func__ = oh3.oh3_pes
     example_molecule = Atoms('OH3',
-                             positions=np.array([[-1.68972339, -0.33596837, 0.00000000],
-                                                 [-0.73375066, -0.42380993, 0.00000000],
-                                                 [-2.09163674, 0.53584907, 0.00000000],
-                                                 [-2.24378277, -1.11994427, 0.00000000],
+                             positions=np.array([[ 0.10849874 , 1.42518671, 0.00000000],
+                                 [0.24686558, 0.00495479, 0.00000000],
+                                                 [1.08186340, 0.68740359 , 0.00000000],
+                                                 [0.86351302, 1.55323694 , 0.00000000],
+
                                                  ]
                                                 ))
 
@@ -226,11 +227,11 @@ class OH3(DiabaticPES):
     states = 3
 
     def _call_method(self, atoms):
-        r = atoms.get_positions() * ang2bohr
-        a, ga = self.__pes__func__(r.T.astype(np.float64))
+        r = atoms.get_positions()
+        a, ga = self.__pes__func__(r)
         # for now let us just test gs
 
-        return a[self.state], ga[::,self.state] * hatree_bohr2ev_ang
+        return a[self.state] * hatree2ev, - ga[::,self.state] * hatree2ev
 
 
 class CH2OH(EvalSurfIO):
@@ -248,7 +249,7 @@ class CH2OH(EvalSurfIO):
                                                  [-2.06853060, -1.86755627, -0.24294965],
                                                  [-2.48213189, 1.43163121, 0.92858405],
                                                  [1.95164196, -0.88179897, -0.94048539], ]
-                                                )/ang2bohr)
+                                                ) / ang2bohr)
 
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
     states = 3
@@ -282,17 +283,18 @@ class NH3(DiabaticPES):
 
 
 if __name__ == '__main__':  # debug purposes
-    atoms = CH2OH.example_molecule
-    atoms.calc = CH2OH(state=1)
+    atoms = OH3.example_molecule
+    atoms.calc = OH3(state=0)
     # atoms2 = atoms.copy()
     # atoms2.calc = CH2OH(state=1)
     # atoms.get_potential_energy()
     # atoms.get_forces()
     from ase.optimize import BFGS
-    opt = BFGS(atoms,maxstep=0.01)
-    for converge in opt.irun():
+    from ase.md import VelocityVerlet
+
+    opt = VelocityVerlet(atoms,trajectory='opt.traj',timestep=0.01)
+    for converge in opt.irun(150):
         f_num = num_gradient(atoms)
 
         f_analytic = - atoms.get_forces()
         print(np.max(abs(f_num - f_analytic)))
-

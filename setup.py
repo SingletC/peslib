@@ -32,9 +32,16 @@ ext_modules = [
               library_dirs=library_dirs),
     Extension(name='peslibf.phsch3', sources=['./src/phsch3.f90', './src/phsch3.pyf'], libraries=['lapack', 'blas'],
               library_dirs=library_dirs),
-    Extension(name='peslibf.oh3', sources=['./src/oh3.f90', './src/oh3.pyf', './src/lib/oh3_util.f90'],
+    Extension(name='peslibf.oh3', sources=['./src/OH3/pes.f90', './src/OH3/oh3.pyf',
+                                           './src/OH3/adiabats.f90',
+                                           './src/OH3/dcdx_u12.f90',
+                                           './src/OH3/dcdx_u13.f90',
+                                           './src/OH3/dcdx_u23.f90',
+                                           './src/OH3/diabaticcouplings.f90',
+                                           './src/OH3/diabats.f90',
+                                           ],
               libraries=['lapack', 'blas'], library_dirs=library_dirs),
-    Extension(name='peslibf.nh3', sources=['./src/nh3.f', './src/nh3.pyf']),
+    # Extension(name='peslibf.nh3', sources=['./src/nh3.f', './src/nh3.pyf']),
     #           ),
 
 ]
