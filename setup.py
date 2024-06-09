@@ -41,7 +41,7 @@ ext_modules = [
                                            './src/OH3/diabats.f90',
                                            ],
               libraries=['lapack', 'blas'], library_dirs=library_dirs),
-    # Extension(name='peslibf.nh3', sources=['./src/nh3.f', './src/nh3.pyf']),
+    Extension(name='peslibf.nh3', sources=['./src/nh3.f', './src/nh3.pyf']),
     #           ),
 
 ]
