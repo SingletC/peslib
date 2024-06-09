@@ -214,11 +214,11 @@ class OH3(DiabaticPES):
         "energy",
         "forces", ]
     __pes__func__ = oh3.oh3_pes
-    example_molecule = Atoms('OH3',
-                             positions=np.array([[ 0.10849874 , 1.42518671, 0.00000000],
-                                 [0.24686558, 0.00495479, 0.00000000],
-                                                 [1.08186340, 0.68740359 , 0.00000000],
-                                                 [0.86351302, 1.55323694 , 0.00000000],
+    example_molecule = Atoms('H3O',
+                             positions=np.array([[0.947340456 , 3.70424E-08, 0.00000000],
+                                 [-1.485546257, 0.420877966, 0.00000000],
+                                                 [-1.485546141,-0.420877871 , 0.00000000],
+                                                 [-0.030185101,-2.11671E-08 , 0.00000000],
 
                                                  ]
                                                 ))
@@ -231,7 +231,7 @@ class OH3(DiabaticPES):
         a, ga = self.__pes__func__(r)
         # for now let us just test gs
 
-        return a[self.state] * hatree2ev, - ga[::,self.state] * hatree2ev
+        return a[self.state] * hatree2ev, - ga[:, :, self.state] * hatree2ev
 
 
 class CH2OH(EvalSurfIO):
@@ -292,8 +292,8 @@ if __name__ == '__main__':  # debug purposes
     from ase.optimize import BFGS
     from ase.md import VelocityVerlet
 
-    opt = VelocityVerlet(atoms,trajectory='opt.traj',timestep=0.01)
-    for converge in opt.irun(150):
+    opt = BFGS(atoms, trajectory='opt.traj',)# timestep=0.01)
+    for converge in opt.irun(0.1):
         f_num = num_gradient(atoms)
 
         f_analytic = - atoms.get_forces()
