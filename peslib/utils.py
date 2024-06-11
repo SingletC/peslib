@@ -2,7 +2,11 @@ from ase import Atoms, Atom
 from ase.units import Bohr, Angstrom, Hartree, eV
 import numpy as np
 from ase import Atoms
-from scipy.optimize import approx_fprime
+try:
+    # risky import for development
+    from scipy.optimize._numdiff import approx_derivative
+except ImportError:
+    pass
 
 ang2bohr = Angstrom / Bohr
 hatree2ev = Hartree / eV
@@ -23,7 +27,6 @@ def atoms_to_eval_surf_io(atoms: Atoms) -> str:
     return '\n'.join(r)
 
 
-
 def num_gradient(atoms: Atoms):
     """
     calculate numerical gradient of Ase Atoms with calculator
@@ -32,6 +35,7 @@ def num_gradient(atoms: Atoms):
     def get_e(pos: np.array):
         atoms.positions = pos.reshape(-1, 3)
         return atoms.get_potential_energy()
-    grad = approx_fprime(atoms.positions.flatten(), get_e, 1e-3).reshape(-1,3)
+
+    grad = approx_derivative(get_e, atoms.positions.flatten(), method='3-point', abs_step=1e-5).reshape(-1, 3)
     atoms.positions = old_pos
     return grad
