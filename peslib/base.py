@@ -50,7 +50,7 @@ class BasePES(Calculator):
         self.results = {'energy': e, 'forces': f}
 
 
-class DiabaticPES(BasePES):
+class AdiabaticPES(BasePES):
     __pes__func__: Callable[
         [np.ndarray, np.ndarray, np.ndarray], Tuple[float, np.ndarray, np.ndarray, np.ndarray]] = None
     __atomic_numbers__: Optional[List[int]] = None
@@ -102,7 +102,7 @@ class BasePESv1(BasePES):
         self.results = {'energy': e, 'forces': f}
 
 
-class EvalSurfIO(DiabaticPES):
+class EvalSurfIO(AdiabaticPES):
     """
     EvalSurf Type PES call external binary file read data and output multiple states PES
     """

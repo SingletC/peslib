@@ -1,7 +1,7 @@
 import numpy as np
 from ase import Atoms
 
-from peslib.base import BasePES, BasePESv1, DiabaticPES, EvalSurfIO
+from peslib.base import BasePES, BasePESv1, AdiabaticPES, EvalSurfIO
 from peslib.utils import ang2bohr, hatree_bohr2ev_ang, hatree2ev
 from peslib.utils import num_gradient
 from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3
@@ -202,7 +202,7 @@ class PhSCH3(BasePES):
         return e, f
 
 
-class OH3(DiabaticPES):
+class OH3(AdiabaticPES):
     """
     OH3 multi state surface
     "Semiclassical Trajectory Studies of Reactive and Nonreactive Scattering of OH(A2Σ+) by H2 Based
@@ -256,7 +256,7 @@ class CH2OH(EvalSurfIO):
     data_dir = Path(__file__).parent / 'data/CH2OH/'
 
 
-class NH3(DiabaticPES):
+class NH3(AdiabaticPES):
     """
     OH3 multi state surface
       1) Nangia, S.; Truhlar, D.G. J. Chem. Phys. 2006, 124, 124309
