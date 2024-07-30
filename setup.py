@@ -9,7 +9,7 @@ library_dirs = None  #[]
 '''
  or
  setenv LIBRARY_PATH "$LIBRARY_PATH":"blas":"lapack"
- setenv LIBRARY_PATH "$LIBRARY_PATH":"/mmfs1/data/tengcc/lib/BLAS-3.11.0/":"/mmfs1/data/tengcc/lib/lapack-3.10.0"                                                                                                                      bck:set
+ setenv LIBRARY_PATH "$LIBRARY_PATH":"/mmfs1/data/tengcc/lib/BLAS-3.11.0/":"/mmfs1/data/tengcc/lib/lapack-3.10.0"
  setenv BLASDIR blas
  or
  module load blas lapack
