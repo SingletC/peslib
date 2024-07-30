@@ -14,6 +14,11 @@ library_dirs = None  #[]
  or
  module load blas lapack
 '''
+# note for andromeda bc user,
+"""
+setenv LIBRARY_PATH "$LIBRARY_PATH":"/mmfs1/data/tengcc/lib/BLAS-3.11.0/"
+module load lapack
+"""
 subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 if not os.path.exists('src/CH2OH/evalsurf.x'):
