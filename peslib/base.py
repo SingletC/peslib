@@ -117,14 +117,14 @@ class EvalSurfIO(AdiabaticPES):
         result = subprocess.run([self.executable_path], input=input, text=True, capture_output=True,
                                 cwd=self.data_dir)
         if result.stderr:
-            raise ValueError(f'Error in EvalSurf: {result.stderr}')
+            raise PESLIBError(f'Error in EvalSurf: {result.stderr}')
 
         output = result.stdout
         # parse output
         lines = output.split('\n')
         au_lines = lines.index(' Adiabatic energy(a.u.)')
         if au_lines == -1:
-            raise ValueError('Adiabatic energy not found')
+            raise PESLIBError('Adiabatic energy not found')
         au = np.fromstring(lines[au_lines + 1], dtype=float, sep=' ')
         gau_ls = []
         gau = np.array([])
@@ -137,7 +137,10 @@ class EvalSurfIO(AdiabaticPES):
                         i_idx += 1
                         gau_ls.append(np.fromstring(lines[i_idx], dtype=float, sep=' '))
                     if not gau_ls:
-                        raise ValueError('Adiabatic gradients not found')
+                        raise PESLIBError('Adiabatic gradients not found')
                     gau = np.array(gau_ls)
                     return au[self.state]*hatree2ev, -gau * hatree_bohr2ev_ang
 
+
+class PESLIBError(Exception):
+    pass
