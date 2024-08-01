@@ -120,23 +120,23 @@ subroutine oh3_pes(xyz,a,ga)
   call u33_prepot_8
   call u33_pot_8(xyz,u33,du33dx)
 
-  write(13,*) "diabatic energies:"
-  write(13,*) u11, u22, u33
+!  write(13,*) "diabatic energies:"
+!  write(13,*) u11, u22, u33
 
-  write(13,*) "analytical gradiens of u11"
-  do i=1,4
-  write(13,*) du11dx(i,1), du11dx(i,2), du11dx(i,3)
-  end do
+!  write(13,*) "analytical gradiens of u11"
+!  do i=1,4
+!  write(13,*) du11dx(i,1), du11dx(i,2), du11dx(i,3)
+!  end do
 
-  write(13,*) "analytical gradiens of u22"
-  do i=1,4
-  write(13,*) du22dx(i,1), du22dx(i,2), du22dx(i,3)
-  end do
+!  write(13,*) "analytical gradiens of u22"
+!  do i=1,4
+!  write(13,*) du22dx(i,1), du22dx(i,2), du22dx(i,3)
+!  end do
 
-  write(13,*) "analytical gradiens of u33"
-  do i=1,4
-  write(13,*) du33dx(i,1), du33dx(i,2), du33dx(i,3)
-  end do
+!  write(13,*) "analytical gradiens of u33"
+!  do i=1,4
+!  write(13,*) du33dx(i,1), du33dx(i,2), du33dx(i,3)
+!  end do
 
 !compute diabatic couplings
   call u12_order10
@@ -146,28 +146,28 @@ subroutine oh3_pes(xyz,a,ga)
   call u13_dc_12(xyz,u13)
   call u23_dc_10(xyz,u23,s23)
   
-  write(13,*) "diabatic couplings:"
-  write(13,*) u12, u13, u23
+!  write(13,*) "diabatic couplings:"
+!  write(13,*) u12, u13, u23
 
 !compute diabatic couplings derivatives
   call u12_dvdx(xyz,u12,s12,du12dx)
   call u13_dvdx(xyz,u13,du13dx)
   call u23_dvdx(xyz,u23,s23,du23dx)
 
-  write(13,*) "analytical gradiens of u12"
-  do i=1,4
-  write(13,*) du12dx(i,1), du12dx(i,2), du12dx(i,3)
-  end do
+!  write(13,*) "analytical gradiens of u12"
+!  do i=1,4
+!  write(13,*) du12dx(i,1), du12dx(i,2), du12dx(i,3)
+!  end do
 
-  write(13,*) "analytical gradiens of u13"
-  do i=1,4
-  write(13,*) du13dx(i,1), du13dx(i,2), du13dx(i,3)
-  end do
+!  write(13,*) "analytical gradiens of u13"
+!  do i=1,4
+!  write(13,*) du13dx(i,1), du13dx(i,2), du13dx(i,3)
+!  end do
 
-  write(13,*) "analytical gradiens of u23"
-  do i=1,4
-  write(13,*) du23dx(i,1), du23dx(i,2), du23dx(i,3)
-  end do
+!  write(13,*) "analytical gradiens of u23"
+!  do i=1,4
+!  write(13,*) du23dx(i,1), du23dx(i,2), du23dx(i,3)
+!  end do
 
 !compute the adiabatic states and eigenvectors
   u(1,1)=u11
@@ -181,12 +181,12 @@ subroutine oh3_pes(xyz,a,ga)
   u(3,3)=u33
   call dsyevj3(u,rv,a)
   call order(a,rv)
-  write(13,*) "adiabatic energies:"
-  write(13,*) a(1), a(2), a(3)
-  write(13,*) "adiabatic eigenvectors:"
-  write(13,*) "v1:",rv(1,1), rv(2,1), rv(3,1)
-  write(13,*) "v2:",rv(1,2), rv(2,2), rv(3,2)
-  write(13,*) "v3:",rv(1,3), rv(2,3), rv(3,3)
+!  write(13,*) "adiabatic energies:"
+!  write(13,*) a(1), a(2), a(3)
+!  write(13,*) "adiabatic eigenvectors:"
+!  write(13,*) "v1:",rv(1,1), rv(2,1), rv(3,1)
+!  write(13,*) "v2:",rv(1,2), rv(2,2), rv(3,2)
+!  write(13,*) "v3:",rv(1,3), rv(2,3), rv(3,3)
 
 !assign dudx to gu
   do i=1,4

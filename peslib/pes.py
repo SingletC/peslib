@@ -266,11 +266,12 @@ class NH3(AdiabaticPES):
     implemented_properties = [
         "energy",
         "forces", ]
-    example_molecule = Atoms('NH3', positions=np.array([[1.59050433, -0.42711963, 2.16479382],
-                                                        [0.72147150, 0.12403254, 1.87202512],
+    example_molecule = Atoms('NH3', positions=np.array([[0.72147150, 0.12403254, 1.87202512],
+                                                        [1.59050433, -0.42711963, 2.16479382],
                                                         [-0.15513447, -0.44718081, 2.09536767],
                                                         [0.76099165, 0.32025874, 0.82102483]]))
     __pes__func__ = nh3.pot
+    nh3.prepot()
     __atomic_numbers__ = example_molecule.get_atomic_numbers()
     states = 2
 
