@@ -28,6 +28,7 @@ subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 if not os.path.exists('src/CH2OH/evalsurf.x'):
     raise FileNotFoundError('evalsurf.x compile failed')
 shutil.copy("src/CH2OH/evalsurf.x","./peslib/")
+os.chmod("./peslib/evalsurf.x", os.stat('./peslib/evalsurf.x').st_mode | stat.S_IEXEC)
 ext_modules = [
     Extension(name='peslibf.o4_singlet', sources=['./src/O4_singlet.f90', './src/O4_singlet.pyf'], ),
     Extension(name='peslibf.n4_singlet',
@@ -54,34 +55,14 @@ ext_modules = [
     #           ),
 
 ]
-class CustomInstallCommand(install):
-    """Customized install command to set executable permission on evalsurf.x"""
-    def run(self):
-        # Run the standard installation process
-        install.run(self)
-
-        # Get the directory where the package is installed
-        install_dir = sysconfig.get_paths()['purelib']  # This gets the site-packages directory
-
-        # Define the destination path for evalsurf.x within the package directory
-        target_file = os.path.join(install_dir, 'peslib', 'evalsurf.x')
-
-        # Ensure evalsurf.x exists and set executable permissions
-        if os.path.exists(target_file):
-            # Set executable permissions (chmod +x)
-            os.chmod(target_file, os.stat(target_file).st_mode | stat.S_IEXEC)
-            print(f'Set executable permissions for {target_file}')
-        else:
-            raise FileNotFoundError(f'{target_file} not found.')
 setup(name='peslib',
       packages=['peslib'],
-      package_data={'peslib': ['data/**/*', './evalsurf.x']},
+      data_files={'peslib': ['data/**/*']},
+      script=['peslib/evalsurf.x'],
       ext_modules=ext_modules,
       install_requires=[
           'ase',
           'numpy',
       ],
-      cmdclass={'install': CustomInstallCommand,  # Use custom install command
-                },
 
       )
