@@ -57,7 +57,7 @@ ext_modules = [
 ]
 setup(name='peslib',
       packages=['peslib'],
-      data_files={'peslib': ['data/**/*']},
+      package_data={'peslib': ['data/**/*']},
       script=['peslib/evalsurf.x'],
       ext_modules=ext_modules,
       install_requires=[
