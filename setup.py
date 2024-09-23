@@ -3,6 +3,11 @@ import os.path
 from numpy.distutils.core import setup, Extension
 import subprocess
 import shutil
+from setuptools.command.install import install
+from setuptools import setup
+import os
+import stat
+import sysconfig
 
 library_dirs = None  #[]
 
