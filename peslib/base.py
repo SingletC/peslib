@@ -63,6 +63,14 @@ class AdiabaticPES(BasePES):
             raise ValueError(f'{self.__class__.__name__} only support {self.states} states')
         self.state = state
 
+    def calculate(self, atoms=None, properties=['energy'],
+                  system_changes=all_changes):
+        if atoms is not None:
+            self.atoms = atoms.copy()
+        self.check_atomic_numbers(atoms)
+        e, f = self._call_method(atoms)
+        self.results = {'energy': e, 'forces': f[self.state,self.state],'nca':f}
+
 
 class BasePESv1(BasePES):
     """
@@ -126,20 +134,21 @@ class EvalSurfIO(AdiabaticPES):
         if au_lines == -1:
             raise PESLIBError('Adiabatic energy not found')
         au = np.fromstring(lines[au_lines + 1], dtype=float, sep=' ')
-        gau_ls = []
         gau = np.array([])
+        grad = np.empty((len(au),len(au), len(atoms), 3))
         for i in lines:
             if 'Adiabatic gradients of states:' in i:
+                gau_ls = []
                 n_state, m_state = np.fromstring(i[-5:], dtype=int, sep=' ')
-                if n_state == m_state == self.state+1:
-                    i_idx = lines.index(i)
-                    while ' ' != lines[i_idx+1]:
-                        i_idx += 1
-                        gau_ls.append(np.fromstring(lines[i_idx], dtype=float, sep=' '))
-                    if not gau_ls:
-                        raise PESLIBError('Adiabatic gradients not found')
-                    gau = np.array(gau_ls)
-                    return au[self.state]*hatree2ev, -gau * hatree_bohr2ev_ang
+                i_idx = lines.index(i)
+                while ' ' != lines[i_idx+1]:
+                    i_idx += 1
+                    gau_ls.append(np.fromstring(lines[i_idx], dtype=float, sep=' '))
+                if not gau_ls:
+                    raise PESLIBError('Adiabatic gradients not found')
+                gau = np.array(gau_ls)
+                grad[n_state-1, m_state-1] = gau
+        return au[self.state]*hatree2ev, -grad * hatree_bohr2ev_ang
 
 
 class PESLIBError(Exception):
