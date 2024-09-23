@@ -69,7 +69,7 @@ class AdiabaticPES(BasePES):
             self.atoms = atoms.copy()
         self.check_atomic_numbers(atoms)
         e, f = self._call_method(atoms)
-        self.results = {'energy': e, 'forces': f[self.state,self.state],'nca':f}
+        self.results = {'energy': e, 'forces': f[self.state,self.state],'nacdr':f}
 
 
 class BasePESv1(BasePES):
