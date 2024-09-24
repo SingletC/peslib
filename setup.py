@@ -28,7 +28,6 @@ subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
 if not os.path.exists('src/CH2OH/evalsurf.x'):
     raise FileNotFoundError('evalsurf.x compile failed')
 shutil.copy2("src/CH2OH/evalsurf.x","./peslib/")
-os.chmod("./peslib/evalsurf.x", os.stat('./peslib/evalsurf.x').st_mode | stat.S_IEXEC)
 ext_modules = [
     Extension(name='peslibf.o4_singlet', sources=['./src/O4_singlet.f90', './src/O4_singlet.pyf'], ),
     Extension(name='peslibf.n4_singlet',
@@ -55,6 +54,21 @@ ext_modules = [
     #           ),
 
 ]
+
+
+class CustomInstallCommand(install):
+
+    def run(self):
+        install.run(self)
+
+        install_dir = self.install_lib
+        target_file = os.path.join(install_dir, 'peslib', 'evalsurf.x')
+        if os.path.exists(target_file):
+            print(f"Modifying permissions for {target_file}")
+            os.chmod(target_file, stat.S_IRWXU)
+        else:
+            print(f"Warning: {target_file} not found.")
+
 setup(name='peslib',
       packages=['peslib'],
       package_data={'peslib': ['data/**/*', 'evalsurf.x']},
@@ -63,5 +77,7 @@ setup(name='peslib',
           'ase',
           'numpy',
       ],
-
+      cmdclass={
+        'install': CustomInstallCommand,
+    },
       )
