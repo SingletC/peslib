@@ -148,10 +148,13 @@ class EvalSurfIO(AdiabaticPES):
                     raise PESLIBError('Adiabatic gradients not found')
                 gau = np.array(gau_ls)
                 # de-scale. For CH2OH, not sure if anything in the future will be different, see potlib.f90 line98,677
+                # Derivative Couplings to NAC
                 if n_state!=m_state:
-                    gau = - gau * abs(au[n_state-1] - au[m_state-1])
+                    gau = - gau * abs(au[n_state-1] - au[m_state-1]) * ang2bohr # to Ang**-1
+                else:
+                    gau = gau  * hatree_bohr2ev_ang
                 grad[n_state-1, m_state-1] = gau
-        return au[self.state]*hatree2ev, -grad * hatree_bohr2ev_ang
+        return au[self.state]*hatree2ev,  - grad # force is negative gradient
 
 
 class PESLIBError(Exception):
