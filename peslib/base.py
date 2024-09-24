@@ -154,6 +154,7 @@ class EvalSurfIO(AdiabaticPES):
                 else:
                     gau = gau  * hatree_bohr2ev_ang
                 grad[n_state-1, m_state-1] = gau
+                grad[m_state-1, n_state-1] = gau
         return au[self.state]*hatree2ev,  - grad # force is negative gradient
 
 
