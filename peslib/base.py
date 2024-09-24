@@ -149,7 +149,7 @@ class EvalSurfIO(AdiabaticPES):
                 gau = np.array(gau_ls)
                 # de-scale. For CH2OH, not sure if anything in the future will be different, see potlib.f90 line98,677
                 if n_state!=m_state:
-                    gau = gau * (au[n_state] - au[m_state])*hatree2ev
+                    gau = gau * abs(au[n_state] - au[m_state])*hatree2ev
                 grad[n_state-1, m_state-1] = gau
         return au[self.state]*hatree2ev, -grad * hatree_bohr2ev_ang
 
