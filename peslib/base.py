@@ -116,7 +116,7 @@ class EvalSurfIO(AdiabaticPES):
     """
 
     data_dir: Path
-    executable_path = './peslib/evalsurf.x'
+    executable_path = Path(__file__).parent / 'evalsurf.x'
 
     def _call_method(self, atoms):
         # create in-memory tmp file
