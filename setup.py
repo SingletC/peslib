@@ -6,7 +6,6 @@ import shutil
 from setuptools.command.install import install
 import os
 import stat
-import sysconfig
 
 library_dirs = None  #[]
 
