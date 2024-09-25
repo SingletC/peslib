@@ -172,7 +172,7 @@ class EvalSurfIO(AdiabaticPES):
                 u_grad[n_state-1, m_state-1] = gu
                 u_grad[m_state-1, n_state-1] = gu
 
-        return v[self.state]*hatree2ev,  - grad, u,u_grad # force is negative gradient
+        return v[self.state]*hatree2ev,  - grad, u *hatree2ev ,u_grad # force is negative gradient
 
 
 class PESLIBError(Exception):
