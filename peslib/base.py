@@ -68,8 +68,9 @@ class AdiabaticPES(BasePES):
         if atoms is not None:
             self.atoms = atoms.copy()
         self.check_atomic_numbers(atoms)
-        e, f = self._call_method(atoms)
-        self.results = {'energy': e, 'forces': f[self.state,self.state],'nacdr':f}
+        e, f, u, u_grad = self._call_method(atoms)
+        self.results = {'energy': e, 'forces': f[self.state,self.state],'nacdr':f,
+                        'u':u, 'u_grad':u_grad}
 
 
 class BasePESv1(BasePES):
@@ -130,13 +131,17 @@ class EvalSurfIO(AdiabaticPES):
         output = result.stdout
         # parse output
         lines = output.split('\n')
-        au_lines = lines.index(' Adiabatic energy(a.u.)')
-        if au_lines == -1:
+        v_lines = lines.index(' Adiabatic energy(a.u.)')
+        if v_lines == -1:
             raise PESLIBError('Adiabatic energy not found')
-        au = np.fromstring(lines[au_lines + 1], dtype=float, sep=' ')
-        gau = np.array([])
-        grad = np.empty((len(au),len(au), len(atoms), 3))
-        for i in lines:
+        v = np.fromstring(lines[v_lines + 1], dtype=float, sep=' ')
+        u_lines = lines.index(' Quasi-diabatic Hamiltonian')
+        if u_lines == -1:
+            raise PESLIBError('Quasi-diabatic Hamiltonian not found')
+        u = np.array([[float(val) for val in line.split()] for line in lines[u_lines + 1:u_lines+self.states+1]])
+        grad = np.empty((len(v),len(v), len(atoms), 3))
+        u_grad = np.empty((len(u),len(u), len(atoms), 3))
+        for i in lines[u_lines:]:
             if 'Adiabatic gradients of states:' in i:
                 gau_ls = []
                 n_state, m_state = np.fromstring(i[-5:], dtype=int, sep=' ')
@@ -146,14 +151,28 @@ class EvalSurfIO(AdiabaticPES):
                     gau_ls.append(np.fromstring(lines[i_idx], dtype=float, sep=' '))
                 if not gau_ls:
                     raise PESLIBError('Adiabatic gradients not found')
-                gau = np.array(gau_ls)
+                gv = np.array(gau_ls)
                 if n_state!=m_state:
-                    gau = - gau * ang2bohr # to Ang**-1
+                    gv = - gv * ang2bohr # to Ang**-1
                 else:
-                    gau = gau  * hatree_bohr2ev_ang
-                grad[n_state-1, m_state-1] = gau
-                grad[m_state-1, n_state-1] = gau
-        return au[self.state]*hatree2ev,  - grad # force is negative gradient
+                    gv = gv  * hatree_bohr2ev_ang
+                grad[n_state-1, m_state-1] = gv
+                grad[m_state-1, n_state-1] = gv
+            if 'Diabatic gradients of states' in i:
+                gu_ls = []
+                n_state, m_state = np.fromstring(i[-5:], dtype=int, sep=' ')
+                i_idx = lines.index(i)
+                while ' ' != lines[i_idx+1]:
+                    i_idx += 1
+                    gu_ls.append(np.fromstring(lines[i_idx], dtype=float, sep=' '))
+                if not gau_ls:
+                    raise PESLIBError('diabatic gradients not found')
+                gu = np.array(gu_ls)
+                gu = gu  * hatree_bohr2ev_ang
+                u_grad[n_state-1, m_state-1] = gu
+                u_grad[m_state-1, n_state-1] = gu
+
+        return v[self.state]*hatree2ev,  - grad, u,u_grad # force is negative gradient
 
 
 class PESLIBError(Exception):
