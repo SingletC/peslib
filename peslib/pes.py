@@ -230,7 +230,6 @@ class OH3(AdiabaticPES):
         r = atoms.get_positions()
         a, ga = self.__pes__func__(r)
         # for now let us just test gs
-
         return a[self.state] * hatree2ev, - ga[:, :, self.state] * hatree2ev , None, None # for future use
 
 
@@ -278,14 +277,15 @@ class NH3(AdiabaticPES):
     def _call_method(self, atoms):
         r = atoms.get_positions() * ang2bohr
         u11, u22, u12, v1, v2, gu11, gu22, gu12, gv1, gv2 = self.__pes__func__(r.flatten())
-        r = [(v1 * hatree2ev, -gv1.reshape(-1, 3) * hatree_bohr2ev_ang, None, None) ,
-             (v2 * hatree2ev, -gv2.reshape(-1, 3) * hatree_bohr2ev_ang, None, None )]
-        return r[self.state]
+        e = (v1 * hatree2ev, v2 * hatree2ev)
+        f1 =  -gv1.reshape(-1, 3) * hatree_bohr2ev_ang
+        f2 =  -gv2.reshape(-1, 3) * hatree_bohr2ev_ang
+        return e[self.state], np.array([[f1, np.zeros((4, 3))], [np.zeros((4, 3)), f2]]), None, None
 
 
 if __name__ == '__main__':  # debug purposes
-    atoms = OH3.example_molecule
-    atoms.calc = OH3(state=0)
+    atoms = NH3.example_molecule
+    atoms.calc = NH3(state=0)
     # atoms2 = atoms.copy()
     # atoms2.calc = CH2OH(state=1)
     # atoms.get_potential_energy()
