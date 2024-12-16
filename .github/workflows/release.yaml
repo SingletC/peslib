@@ -3,7 +3,7 @@ name: Publish to PyPI
 on:
   push:
     tags:
-      - 'v*.*.*'  # 当推送带有 vX.Y.Z 格式的标签时触发（如 v1.0.0）
+      - 'v*.*.*'
 
 jobs:
   publish-to-pypi:
@@ -33,7 +33,7 @@ jobs:
       # Step 4: Build the package
       - name: Build the package
         run: |
-          python -m build
+          python setup.py build
         # 将构建结果保存在 dist/ 文件夹
 
       # Step 5: Publish to PyPI
