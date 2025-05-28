@@ -4,7 +4,7 @@ from ase import Atoms
 from peslib.base import BasePES, BasePESv1, AdiabaticPES, EvalSurfIO
 from peslib.utils import ang2bohr, hatree_bohr2ev_ang, hatree2ev
 from peslib.utils import num_gradient
-from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3
+from peslibf import ch4oh, o4_singlet, n4_singlet, o4_triplet, n2o2_triplet, h2o2, phoh, phsch3, oh3, nh3, o2h3
 from pathlib import Path
 
 
@@ -281,6 +281,60 @@ class NH3(AdiabaticPES):
         f1 =  -gv1.reshape(-1, 3) * hatree_bohr2ev_ang
         f2 =  -gv2.reshape(-1, 3) * hatree_bohr2ev_ang
         return e[self.state], np.array([[f1, np.zeros((4, 3))], [np.zeros((4, 3)), f2]]), None, None
+
+
+class O2H3(BasePES):
+    """
+    O2H3 PIP-NN PES for OH + H2O reaction system.
+    Reference: Physical Chemistry Chemical Physics, 2017, 19, 17718-17725.
+    
+    The PES is for the reaction OH + H2O = H2O + OH.
+    The molecule order should be HHHOO.
+    """
+    implemented_properties = [
+        "energy",
+        "forces", ]
+    example_molecule = Atoms('HHHOO', positions=np.array([
+            [  -6.84381360, 0.00000000, -5.78158932],  # H (from OH)
+            [  -5.92190904, 0.00000000, -4.57852734],  # H (from H2O)
+            [   8.84517843, 0.00000000, 9.14769326],  # H (from H2O)  
+            [  -6.84900494, 0.00000000, -4.82285318],  # O (from OH)
+            [   9.36239261, 0.00000000, 8.32650194]   # O (from H2O)
+        ]))
+    __atomic_numbers__ = example_molecule.get_atomic_numbers()
+    
+    # Class variable to track if PES has been initialized
+    _pes_initialized = False
+
+    def __init__(self, **kwargs):
+        BasePES.__init__(self, **kwargs)
+        # Only initialize once
+        if not O2H3._pes_initialized:
+            o2h3.pes_init()  # Initialize the PES
+            O2H3._pes_initialized = True
+
+    def _call_method(self, atoms):
+        r = atoms.get_positions()
+        # Fortran expects (3,5) array, so we need to transpose
+        r_fortran = r.T  # This gives us (3,5) array
+        e = o2h3.h3o2pipnn(r_fortran)
+        
+        # Calculate forces using numerical gradient
+        # We need to create a temporary calculator that only computes energy
+        class TempCalc:
+            def get_potential_energy(self, atoms_temp):
+                r_temp = atoms_temp.get_positions()
+                r_temp_fortran = r_temp.T
+                return o2h3.h3o2pipnn(r_temp_fortran)
+        
+        # Create a copy of atoms with the temporary calculator
+        atoms_copy = atoms.copy()
+        atoms_copy.calc = TempCalc()
+        
+        # Calculate numerical gradient (forces = -gradient)
+        f = -num_gradient(atoms_copy)
+        
+        return e, f
 
 
 if __name__ == '__main__':  # debug purposes

@@ -22,11 +22,14 @@ library_dirs = None  #[]
 setenv LIBRARY_PATH "$LIBRARY_PATH":"/mmfs1/data/tengcc/lib/BLAS-3.11.0/"
 module load lapack
 """
-subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
-subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
-if not os.path.exists('src/CH2OH/evalsurf.x'):
-    raise FileNotFoundError('evalsurf.x compile failed')
-shutil.copy2("src/CH2OH/evalsurf.x","./peslib/")
+# 临时注释掉以便于调试
+# subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
+# subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
+# if not os.path.exists('src/CH2OH/evalsurf.x'):
+#     raise FileNotFoundError('evalsurf.x compile failed')
+# shutil.copy2("src/CH2OH/evalsurf.x","./peslib/")
+
+# 只保留o2h3扩展模块用于调试
 ext_modules = [
     Extension(name='peslibf.o4_singlet', sources=['./src/O4_singlet.f90', './src/O4_singlet.pyf'], ),
     Extension(name='peslibf.n4_singlet',
@@ -49,8 +52,8 @@ ext_modules = [
                                            './src/OH3/diabats.f90',
                                            ],
               libraries=['lapack', 'blas'], library_dirs=library_dirs),
+    Extension(name='peslibf.o2h3', sources=['./src/O2H3/h3o2-pipnn.f', './src/O2H3/o2h3.pyf']),
     Extension(name='peslibf.nh3', sources=['./src/nh3.f', './src/nh3.pyf']),
-    #           ),
 
 ]
 
