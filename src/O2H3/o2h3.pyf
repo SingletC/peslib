@@ -1,0 +1,14 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module o2h3 ! in 
+    interface  ! in :o2h3
+        subroutine pes_init() ! in :o2h3:h3o2-pipnn.f
+        end subroutine pes_init
+        
+        subroutine h3o2pipnn(ct,vpes) ! in :o2h3:h3o2-pipnn.f
+            double precision dimension(3,5),intent(in) :: ct
+            double precision intent(out) :: vpes
+        end subroutine h3o2pipnn
+    end interface 
+end python module o2h3 

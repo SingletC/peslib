@@ -16,5 +16,5 @@ dependencies = [
   'numpy',
   'ase', ]
 [build-system]
-requires = ["setuptools<=60.0",'numpy==1.23.5']
+requires = ["setuptools<=60.0",'numpy']
 build-backend = "setuptools.build_meta"
