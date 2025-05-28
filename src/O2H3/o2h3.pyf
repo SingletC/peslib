@@ -6,6 +6,10 @@ python module o2h3 ! in
         subroutine pes_init() ! in :o2h3:h3o2-pipnn.f
         end subroutine pes_init
         
+        subroutine pes_init_with_path(data_dir) ! in :o2h3:h3o2-pipnn.f
+            character(len=*), intent(in) :: data_dir
+        end subroutine pes_init_with_path
+        
         subroutine h3o2pipnn(ct,vpes) ! in :o2h3:h3o2-pipnn.f
             double precision dimension(3,5),intent(in) :: ct
             double precision intent(out) :: vpes

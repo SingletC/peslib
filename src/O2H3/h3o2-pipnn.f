@@ -151,6 +151,95 @@
       return
       end subroutine pes_init
 
+!-->  read NN weights and biases with explicit data directory path
+      subroutine pes_init_with_path(data_dir)
+      use nnparam
+      implicit none
+      character(len=*), intent(in) :: data_dir
+      integer i,ihid,iwe,inode1,inode2,ilay1,ilay2
+      integer ibasis,npd,iterm,ib,nfile
+      character f1*80,line*80
+      character(len=512) :: bias_file, weights_file
+      integer :: status
+      integer :: dir_len
+      
+      ! Get length of directory path
+      dir_len = len_trim(data_dir)
+      
+      ! Construct full file paths
+      if (data_dir(dir_len:dir_len) == '/') then
+        ! Directory already ends with /
+        bias_file = trim(data_dir) // 'biases.txt'
+        weights_file = trim(data_dir) // 'weights.txt'
+      else
+        ! Add / separator
+        bias_file = trim(data_dir) // '/biases.txt'
+        weights_file = trim(data_dir) // '/weights.txt'
+      endif
+      
+      ! Try to open bias file
+      open(4, file=bias_file, status='old', iostat=status)
+      if (status /= 0) then
+        write(*,*) 'Error: Cannot find biases.txt at:'
+        write(*,*) trim(bias_file)
+        stop 'biases.txt not found'
+      endif
+
+      ! Try to open weights file
+      nfile=7
+      open(nfile, file=weights_file, status='old', iostat=status)
+      if (status /= 0) then
+        write(*,*) 'Error: Cannot find weights.txt at:'
+        write(*,*) trim(weights_file)
+        stop 'weights.txt not found'
+      endif
+      
+      read(nfile,*)ninput,nhid,noutput
+      nscale=ninput+noutput
+      nlayer=nhid+2 !additional one for input layer and one for output 
+      allocate(nodes(nlayer),pdela(nscale),pavga(nscale))
+      nodes(1)=ninput
+      nodes(nlayer)=noutput
+      read(nfile,*)(nodes(ihid),ihid=2,nhid+1)
+      nodemax=0
+      do i=1,nlayer
+       nodemax=max(nodemax,nodes(i))
+      enddo
+      allocate(weighta(nodemax,nodemax,2:nlayer),
+     %   biasa(nodemax,2:nlayer))
+      read(nfile,*)ifunc,nwe
+!-->....ifunc hence controls the type of transfer function used for hidden layers
+!-->....At this time, only an equivalent transfer function can be used for all hidden layers
+!-->....and the pure linear function is always applid to the output layer.
+!-->....see function tranfun() for details
+      read(nfile,*)(pdela(i),i=1,nscale)
+      read(nfile,*)(pavga(i),i=1,nscale)
+      iwe=0
+      do ilay1=2,nlayer
+      ilay2=ilay1-1
+      do inode1=1,nodes(ilay1)
+      do inode2=1,nodes(ilay2) !
+      read(nfile,*)weighta(inode2,inode1,ilay1)
+      iwe=iwe+1
+      enddo
+      read(4,*)biasa(inode1,ilay1)
+      iwe=iwe+1
+      enddo
+      enddo
+      
+      if (iwe.ne.nwe) then
+         write(*,*)'provided number of parameters ',nwe
+         write(*,*)'actual number of parameters ',iwe
+         write(*,*)'nwe not equal to iwe, check input files or code'
+         stop
+      endif
+
+      close(nfile)
+      close(4)
+
+      return
+      end subroutine pes_init_with_path
+
         subroutine getpota(x,vpot)
         use nnparam
         implicit none

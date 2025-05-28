@@ -305,12 +305,17 @@ class O2H3(BasePES):
     
     # Class variable to track if PES has been initialized
     _pes_initialized = False
+    
+    # Data directory path
+    data_dir = Path(__file__).parent / 'data/O2H3/'
 
     def __init__(self, **kwargs):
         BasePES.__init__(self, **kwargs)
         # Only initialize once
         if not O2H3._pes_initialized:
-            o2h3.pes_init()  # Initialize the PES
+            # Use absolute path to data directory
+            data_path = str(self.data_dir.resolve())
+            o2h3.pes_init_with_path(data_path)  # Initialize with absolute path
             O2H3._pes_initialized = True
 
     def _call_method(self, atoms):
