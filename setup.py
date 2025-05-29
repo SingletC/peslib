@@ -6,6 +6,7 @@ import shutil
 from setuptools.command.install import install
 import os
 import stat
+import sys
 
 library_dirs = None  #[]
 
@@ -22,11 +23,37 @@ library_dirs = None  #[]
 setenv LIBRARY_PATH "$LIBRARY_PATH":"/mmfs1/data/tengcc/lib/BLAS-3.11.0/"
 module load lapack
 """
-subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE)
-subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE)
-if not os.path.exists('src/CH2OH/evalsurf.x'):
-    raise FileNotFoundError('evalsurf.x compile failed')
-shutil.copy2("src/CH2OH/evalsurf.x","./peslib/")
+try:
+    print("Cleaning previous build...")
+    clean_result = subprocess.run(['make', 'clean'], cwd='src/CH2OH', stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if clean_result.returncode != 0:
+        print(f"Warning during make clean: {clean_result.stderr}")
+    
+    print("Compiling evalsurf.x...")
+    make_result = subprocess.run(['make'], cwd='src/CH2OH', stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    
+    if make_result.returncode != 0:
+        print("Compilation failed with the following errors:")
+        print(f"STDOUT: {make_result.stdout}")
+        print(f"STDERR: {make_result.stderr}")
+        raise subprocess.CalledProcessError(make_result.returncode, 'make')
+    
+    if not os.path.exists('src/CH2OH/evalsurf.x'):
+        print("Compilation appeared to succeed but evalsurf.x was not created.")
+        print(f"STDOUT: {make_result.stdout}")
+        print(f"STDERR: {make_result.stderr}")
+        raise FileNotFoundError('evalsurf.x compile failed')
+    
+    print("Compilation successful, copying evalsurf.x...")
+    shutil.copy2("src/CH2OH/evalsurf.x","./peslib/")
+except (subprocess.CalledProcessError, FileNotFoundError) as e:
+    print(f"Error during compilation: {str(e)}")
+    print("Please check if all dependencies are installed (BLAS, LAPACK, etc.)")
+    print("You may need to load required modules or set environment variables:")
+    print("  module load blas lapack")
+    print("  export LIBRARY_PATH=$LIBRARY_PATH:/path/to/blas:/path/to/lapack")
+    sys.exit(1)
+
 ext_modules = [
     Extension(name='peslibf.o4_singlet', sources=['./src/O4_singlet.f90', './src/O4_singlet.pyf'], ),
     Extension(name='peslibf.n4_singlet',
